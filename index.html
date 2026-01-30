@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Chủ</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff6a00, #ee0979);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        button {
+            padding: 15px 30px;
+            margin: 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .btn1 {
+            background-color: #00c6ff;
+        }
+
+        .btn2 {
+            background-color: #ff3d3d;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🌈 TRANG CHỦ 🌈</h1>
+        <button class="btn1" onclick="vaoTrang2()">Vào Trang 2</button>
+        <button class="btn2" onclick="thoatWeb()">Thoát Web</button>
+    </div>
+
+    <script>
+        function vaoTrang2() {
+            window.location.href = "page2.html";
+        }
+
+        function thoatWeb() {
+            window.close();
+        }
+    </script>
+</body>
+</html>
