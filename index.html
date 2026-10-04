@@ -1,64 +1,1686 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Trang Chủ</title>
-    <style>
-        body {
-            background: linear-gradient(135deg, #ff6a00, #ee0979);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LÀM ĐĨ — Vũ Trọng Phụng | Bài thuyết trình</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════
+   0. RESET + TOKENS
+   ══════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#0a0612; --bg1:#0d0818; --bg2:#150a26; --bg3:#1a0f2e;
+  --pur:#a855f7; --pnk:#ec4899; --vio:#7c3aed; --cyn:#22d3ee;
+  --rose:#f43f5e; --txt:#f5f3ff; --txt2:#c4b5fd; --txt3:#8b7bb8;
+  --line:rgba(168,85,247,.35);
+  --glass:rgba(30,15,55,.45);
+  --glow:0 0 20px rgba(168,85,247,.55), 0 0 42px rgba(236,72,153,.28);
+  --glow-c:0 0 18px rgba(34,211,238,.55), 0 0 36px rgba(34,211,238,.25);
+  --glow-r:0 0 20px rgba(244,63,94,.55), 0 0 42px rgba(244,63,94,.28);
+  --f-head:'Space Grotesk','Be Vietnam Pro',sans-serif;
+  --f-body:'Be Vietnam Pro','Space Grotesk',sans-serif;
+  --f-deco:'Orbitron','Space Grotesk',sans-serif;
+  --f-mono:'JetBrains Mono',monospace;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg0);color:var(--txt);font-family:var(--f-body);-webkit-font-smoothing:antialiased}
+body{position:fixed;inset:0}
+::selection{background:var(--pur);color:#fff}
+svg{display:block}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
-        .box {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
+/* ══════════════════════════════════════════════════════
+   1. BACKGROUND — Great Sage layers
+   ══════════════════════════════════════════════════════ */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%,rgba(124,58,237,.20),transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 85%,rgba(236,72,153,.16),transparent 60%),
+    radial-gradient(ellipse 60% 50% at 50% 50%,rgba(34,211,238,.05),transparent 70%),
+    linear-gradient(160deg,var(--bg0) 0%,var(--bg1) 40%,var(--bg2) 70%,var(--bg0) 100%);
+}
+.bg::after{content:'';position:absolute;inset:-20%;
+  background:conic-gradient(from 0deg at 50% 50%,rgba(168,85,247,.10),rgba(236,72,153,.08),rgba(34,211,238,.07),rgba(168,85,247,.10));
+  animation:spin 60s linear infinite;filter:blur(70px);opacity:.55}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bg-grid{position:absolute;inset:-50%;
+  background-image:
+    linear-gradient(rgba(168,85,247,.10) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(168,85,247,.10) 1px,transparent 1px);
+  background-size:60px 60px;
+  transform:perspective(600px) rotateX(58deg) translateY(-12%);
+  animation:gridflow 22s linear infinite;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 45%,#000 30%,transparent 78%);
+  opacity:.55}
+@keyframes gridflow{to{background-position:0 60px,60px 0}}
+.bg-hex{position:absolute;inset:0;opacity:.16;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'><g fill='none' stroke='%23a855f7' stroke-width='1'><path d='M30 2 L60 2 L75 26 L60 50 L30 50 L15 26 Z'/><path d='M90 54 L120 54 L135 78 L120 102 L90 102 L75 78 Z'/><path d='M-30 54 L0 54 L15 78 L0 102 L-30 102 L-45 78 Z'/></g></svg>");
+  background-size:180px 156px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 20%,transparent 80%)}
+.bg-corner{position:absolute;width:34vmin;height:34vmin;border:1px solid rgba(168,85,247,.22);
+  clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);
+  animation:hexpulse 7s ease-in-out infinite}
+.bg-corner.tl{top:-12vmin;left:-10vmin}
+.bg-corner.br{bottom:-12vmin;right:-10vmin;animation-delay:-3.5s}
+.bg-corner.tr{top:-16vmin;right:-14vmin;width:26vmin;height:26vmin;animation-delay:-1.8s}
+@keyframes hexpulse{0%,100%{opacity:.25;transform:scale(1)}50%{opacity:.6;transform:scale(1.06)}}
+#particles{position:absolute;inset:0;width:100%;height:100%}
+.scan{position:absolute;left:0;right:0;height:22vh;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(168,85,247,.055) 45%,rgba(34,211,238,.09) 50%,rgba(168,85,247,.055) 55%,transparent);
+  animation:scanmove 9s linear infinite;mix-blend-mode:screen}
+@keyframes scanmove{0%{top:-25vh}100%{top:110vh}}
+.scanlines{position:absolute;inset:0;pointer-events:none;opacity:.35;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.028) 0 1px,transparent 1px 3px)}
+.vig{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 75% 70% at 50% 50%,transparent 40%,rgba(5,2,10,.75) 100%)}
 
-        button {
-            padding: 15px 30px;
-            margin: 15px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            color: white;
-        }
+/* ══════════════════════════════════════════════════════
+   2. DECK / SLIDE FRAME
+   ══════════════════════════════════════════════════════ */
+.stage{position:fixed;inset:0;display:grid;place-items:center;z-index:2}
+.slide{
+  position:absolute;
+  width:min(100vw,177.78vh);
+  height:min(56.25vw,100vh);
+  font-size:calc(min(100vw,177.78vh)/100);
+  padding:4.2em 5.2em;
+  display:flex;flex-direction:column;justify-content:center;
+  opacity:0;visibility:hidden;pointer-events:none;
+  overflow:hidden;
+  will-change:transform,opacity,clip-path;
+}
+.slide.active{opacity:1;visibility:visible;pointer-events:auto}
+.slide.leaving{opacity:1;visibility:visible;pointer-events:none}
 
-        .btn1 {
-            background-color: #00c6ff;
-        }
+/* ── TRANSITION PRESETS T1–T12 ────────────────────────── */
+/* T1 — Fly in from LEFT */
+@keyframes t1in{from{opacity:0;transform:translateX(-100%)}to{opacity:1;transform:none}}
+@keyframes t1out{from{opacity:1;transform:none}to{opacity:0;transform:translateX(60%)}}
+/* T2 — Fly in from RIGHT */
+@keyframes t2in{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:none}}
+@keyframes t2out{from{opacity:1;transform:none}to{opacity:0;transform:translateX(-60%)}}
+/* T3 — Rise UP from bottom */
+@keyframes t3in{from{opacity:0;transform:translateY(80%)}to{opacity:1;transform:none}}
+@keyframes t3out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-40%)}}
+/* T4 — Drop DOWN from top */
+@keyframes t4in{from{opacity:0;transform:translateY(-80%)}to{opacity:1;transform:none}}
+@keyframes t4out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(40%)}}
+/* T5 — Zoom IN (scale up) */
+@keyframes t5in{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes t5out{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(1.35)}}
+/* T6 — Zoom OUT (scale down) */
+@keyframes t6in{from{opacity:0;transform:scale(1.4)}to{opacity:1;transform:scale(1)}}
+@keyframes t6out{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.62)}}
+/* T7 — Wipe from LEFT */
+@keyframes t7in{from{clip-path:inset(0 100% 0 0);opacity:1}to{clip-path:inset(0);opacity:1}}
+@keyframes t7out{from{clip-path:inset(0);opacity:1}to{clip-path:inset(0 0 0 100%);opacity:1}}
+/* T8 — Wipe from RIGHT */
+@keyframes t8in{from{clip-path:inset(0 0 0 100%);opacity:1}to{clip-path:inset(0);opacity:1}}
+@keyframes t8out{from{clip-path:inset(0);opacity:1}to{clip-path:inset(0 100% 0 0);opacity:1}}
+/* T9 — Curtain open (from middle) */
+@keyframes t9in{from{clip-path:inset(50% 0 50% 0);opacity:1}to{clip-path:inset(0);opacity:1}}
+@keyframes t9out{from{clip-path:inset(0);opacity:1}to{clip-path:inset(50% 0 50% 0);opacity:1}}
+/* T10 — Fade + scale */
+@keyframes t10in{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:scale(1)}}
+@keyframes t10out{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.95)}}
+/* T11 — Rotate 3D */
+@keyframes t11in{from{opacity:0;transform:perspective(1200px) rotateY(-90deg)}to{opacity:1;transform:perspective(1200px) rotateY(0)}}
+@keyframes t11out{from{opacity:1;transform:perspective(1200px) rotateY(0)}to{opacity:0;transform:perspective(1200px) rotateY(90deg)}}
+/* T12 — Glitch slide */
+@keyframes t12in{
+  0%{opacity:0;transform:translateX(-30px) skewX(6deg);filter:hue-rotate(120deg) blur(6px)}
+  30%{opacity:.75;transform:translateX(18px) skewX(-4deg);filter:hue-rotate(-50deg) blur(2px)}
+  60%{opacity:.92;transform:translateX(-9px) skewX(2deg);filter:hue-rotate(40deg) blur(1px)}
+  100%{opacity:1;transform:none;filter:none}}
+@keyframes t12out{
+  0%{opacity:1;transform:none;filter:none}
+  35%{opacity:.6;transform:translateX(24px) skewX(-6deg);filter:hue-rotate(140deg) blur(4px)}
+  100%{opacity:0;transform:translateX(-30px) skewX(4deg);filter:hue-rotate(220deg) blur(8px)}}
 
-        .btn2 {
-            background-color: #ff3d3d;
-        }
+.slide.active[data-anim="T1"]{animation:t1in .7s ease-out both}
+.slide.active[data-anim="T2"]{animation:t2in .7s ease-out both}
+.slide.active[data-anim="T3"]{animation:t3in .8s ease-out both}
+.slide.active[data-anim="T4"]{animation:t4in .75s cubic-bezier(.34,1.56,.64,1) both}
+.slide.active[data-anim="T5"]{animation:t5in .65s ease-out both}
+.slide.active[data-anim="T6"]{animation:t6in .65s ease-out both}
+.slide.active[data-anim="T7"]{animation:t7in .8s ease-in-out both}
+.slide.active[data-anim="T8"]{animation:t8in .8s ease-in-out both}
+.slide.active[data-anim="T9"]{animation:t9in .85s cubic-bezier(.16,1,.3,1) both}
+.slide.active[data-anim="T10"]{animation:t10in .6s ease both}
+.slide.active[data-anim="T11"]{animation:t11in .85s ease-out both}
+.slide.active[data-anim="T12"]{animation:t12in .55s steps(8) both}
 
-        button:hover {
-            opacity: 0.8;
-        }
-    </style>
+.slide.leaving[data-anim="T1"]{animation:t1out .55s ease-in both}
+.slide.leaving[data-anim="T2"]{animation:t2out .55s ease-in both}
+.slide.leaving[data-anim="T3"]{animation:t3out .55s ease-in both}
+.slide.leaving[data-anim="T4"]{animation:t4out .55s ease-in both}
+.slide.leaving[data-anim="T5"]{animation:t5out .5s ease-in both}
+.slide.leaving[data-anim="T6"]{animation:t6out .5s ease-in both}
+.slide.leaving[data-anim="T7"]{animation:t7out .6s ease-in-out both}
+.slide.leaving[data-anim="T8"]{animation:t8out .6s ease-in-out both}
+.slide.leaving[data-anim="T9"]{animation:t9out .6s ease-in both}
+.slide.leaving[data-anim="T10"]{animation:t10out .5s ease both}
+.slide.leaving[data-anim="T11"]{animation:t11out .7s ease-in both}
+.slide.leaving[data-anim="T12"]{animation:t12out .55s steps(8) both}
+
+/* glitch flash during transition */
+.glitch-flash{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(168,85,247,.35),rgba(34,211,238,.25),transparent);
+  mix-blend-mode:screen}
+.glitch-flash.on{animation:gflash .5s steps(3) 1}
+@keyframes gflash{0%{opacity:0;transform:translateX(-8%)}30%{opacity:.9;transform:translateX(4%)}60%{opacity:.4;transform:translateX(-2%)}100%{opacity:0;transform:none}}
+
+/* ══════════════════════════════════════════════════════
+   3. SHARED COMPONENTS
+   ══════════════════════════════════════════════════════ */
+.kicker{font-family:var(--f-mono);font-size:1.15em;letter-spacing:.42em;text-transform:uppercase;
+  color:var(--cyn);text-shadow:var(--glow-c);display:flex;align-items:center;gap:.8em}
+.kicker::before{content:'';width:2.4em;height:1px;background:linear-gradient(90deg,transparent,var(--cyn))}
+.kicker.center{justify-content:center}
+.kicker.center::after{content:'';width:2.4em;height:1px;background:linear-gradient(270deg,transparent,var(--cyn))}
+h1.big{font-family:var(--f-head);font-weight:700;line-height:.95;letter-spacing:-.02em;
+  background:linear-gradient(120deg,#fff 0%,var(--txt2) 35%,var(--pur) 62%,var(--pnk) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 22px rgba(168,85,247,.55))}
+h2.sec{font-family:var(--f-head);font-weight:600;font-size:3.4em;line-height:1.08;letter-spacing:-.01em;
+  background:linear-gradient(100deg,#fff,var(--txt2) 55%,var(--pur));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 16px rgba(168,85,247,.4))}
+.sub{font-size:1.6em;color:var(--txt2);font-weight:300;line-height:1.55}
+.mono{font-family:var(--f-mono)}
+.panel{position:relative;border:1px solid var(--line);border-radius:.55em;
+  background:linear-gradient(150deg,rgba(30,15,55,.62),rgba(15,8,28,.42));
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  padding:1.7em 1.9em;
+  box-shadow:inset 0 0 32px rgba(168,85,247,.10), 0 8px 34px rgba(0,0,0,.5)}
+.panel::before,.panel::after{content:'';position:absolute;width:1.3em;height:1.3em;border:1px solid var(--pur);opacity:.85}
+.panel::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+.panel::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+.panel.cy{--line:rgba(34,211,238,.35)}
+.panel.cy::before,.panel.cy::after{border-color:var(--cyn)}
+.bullets{list-style:none;display:flex;flex-direction:column;gap:.95em}
+.bullets li{position:relative;padding-left:1.75em;font-size:1.42em;line-height:1.5;color:var(--txt2);font-weight:300}
+.bullets li::before{content:'';position:absolute;left:0;top:.55em;width:.55em;height:.55em;
+  background:var(--pur);transform:rotate(45deg);box-shadow:0 0 10px var(--pur)}
+.bullets li b{color:var(--txt);font-weight:600}
+.bullets.cy li::before{background:var(--cyn);box-shadow:0 0 10px var(--cyn)}
+.bullets.rose li::before{background:var(--rose);box-shadow:0 0 10px var(--rose)}
+.ico{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.hr{height:1px;background:linear-gradient(90deg,transparent,var(--pur),var(--pnk),transparent);
+  box-shadow:0 0 12px rgba(168,85,247,.7);border:none;margin:.9em 0}
+.hr.v{width:1px;height:100%;background:linear-gradient(180deg,transparent,var(--pur),var(--cyn),transparent);margin:0}
+.tw-cursor{display:inline-block;width:.06em;height:.9em;background:var(--cyn);
+  box-shadow:0 0 10px var(--cyn);vertical-align:-.06em;margin-left:.08em;animation:blink .75s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ══════════════════════════════════════════════════════
+   3B. LAYERED INNER ANIMATIONS (per-element PowerPoint style)
+   ══════════════════════════════════════════════════════ */
+@keyframes an-top{from{opacity:0;transform:translateY(-46px)}to{opacity:1;transform:none}}
+@keyframes an-left{from{opacity:0;transform:translateX(-56px)}to{opacity:1;transform:none}}
+@keyframes an-right{from{opacity:0;transform:translateX(56px)}to{opacity:1;transform:none}}
+@keyframes an-rot{from{opacity:0;transform:scale(.4) rotate(-200deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes an-scale{from{opacity:0;transform:scale(.72)}to{opacity:1;transform:scale(1)}}
+
+/* Headings drop from top */
+.slide.active h1.big,
+.slide.active h2.sec,
+.slide.active .col-l h2{
+  animation:an-top .7s cubic-bezier(.16,1,.3,1) both;
+  animation-delay:.12s}
+
+/* Kicker + sub slide in from left */
+.slide.active .kicker{animation:an-left .6s ease-out both;animation-delay:.05s}
+.slide.active .sub,
+.slide.active .qcap-cap,
+.slide.active .qauth{animation:an-left .6s ease-out both;animation-delay:.35s}
+
+/* Bullets stagger from left */
+.slide.active .bullets > li{animation:an-left .55s ease-out both}
+.slide.active .bullets > li:nth-child(1){animation-delay:.30s}
+.slide.active .bullets > li:nth-child(2){animation-delay:.45s}
+.slide.active .bullets > li:nth-child(3){animation-delay:.60s}
+.slide.active .bullets > li:nth-child(4){animation-delay:.75s}
+.slide.active .bullets > li:nth-child(5){animation-delay:.90s}
+.slide.active .bullets > li:nth-child(6){animation-delay:1.05s}
+
+/* Icons zoom + rotate */
+.slide.active .big-ico,
+.slide.active .c-ico,
+.slide.active .stat .ic,
+.slide.active .portrait .ph{
+  animation:an-rot .75s cubic-bezier(.16,1,.3,1) both;animation-delay:.2s}
+
+/* Panels fade-slide in */
+.slide.active .panel{animation:an-right .7s cubic-bezier(.16,1,.3,1) both;animation-delay:.25s}
+.slide.active .panel.fly,
+.slide.active .panel.fly.r,
+.slide.active .panel.fly.t{animation:an-right .7s cubic-bezier(.16,1,.3,1) both;animation-delay:.25s}
+
+/* Cards scale + fade (staggered) */
+.slide.active .card,
+.slide.active .card.fly,
+.slide.active .card.fly.r{animation:an-scale .6s cubic-bezier(.16,1,.3,1) both}
+.slide.active .cards .card:nth-child(1){animation-delay:.20s}
+.slide.active .cards .card:nth-child(2){animation-delay:.40s}
+.slide.active .cards .card:nth-child(3){animation-delay:.60s}
+.slide.active .cards .card:nth-child(4){animation-delay:.80s}
+
+/* Stat counters scale in */
+.slide.active .stat,
+.slide.active .stat.fly{animation:an-scale .6s cubic-bezier(.16,1,.3,1) both}
+.slide.active .stats .stat:nth-child(1){animation-delay:.20s}
+.slide.active .stats .stat:nth-child(2){animation-delay:.35s}
+.slide.active .stats .stat:nth-child(3){animation-delay:.50s}
+.slide.active .stats .stat:nth-child(4){animation-delay:.65s}
+
+/* Quote-bullets (small cards) */
+.slide.active .qb,
+.slide.active .qb.fly{animation:an-scale .55s ease-out both}
+.slide.active .quote-bullets .qb:nth-child(1){animation-delay:.40s}
+.slide.active .quote-bullets .qb:nth-child(2){animation-delay:.55s}
+.slide.active .quote-bullets .qb:nth-child(3){animation-delay:.70s}
+.slide.active .quote-bullets .qb:nth-child(4){animation-delay:.85s}
+.slide.active .quote-bullets .qb:nth-child(5){animation-delay:1.00s}
+
+/* Story-flow steps */
+.slide.active .fstep,
+.slide.active .fstep.fly{animation:an-left .55s ease-out both}
+.slide.active .flow .fstep:nth-child(1){animation-delay:.20s}
+.slide.active .flow .fstep:nth-child(2){animation-delay:.35s}
+.slide.active .flow .fstep:nth-child(3){animation-delay:.50s}
+.slide.active .flow .fstep:nth-child(4){animation-delay:.65s}
+.slide.active .flow .fstep:nth-child(5){animation-delay:.80s}
+
+/* Timeline items */
+.slide.active .tl-item,
+.slide.active .tl-item.fly{animation:an-left .55s ease-out both}
+.slide.active .tl .tl-item:nth-child(1){animation-delay:.15s}
+.slide.active .tl .tl-item:nth-child(2){animation-delay:.28s}
+.slide.active .tl .tl-item:nth-child(3){animation-delay:.41s}
+.slide.active .tl .tl-item:nth-child(4){animation-delay:.54s}
+.slide.active .tl .tl-item:nth-child(5){animation-delay:.67s}
+.slide.active .tl .tl-item:nth-child(6){animation-delay:.80s}
+.slide.active .tl .tl-item:nth-child(7){animation-delay:.93s}
+
+/* Compare boxes */
+.slide.active .cmp-box,
+.slide.active .cmp-box.fly,
+.slide.active .cmp-box.bad.fly{animation:an-scale .65s cubic-bezier(.16,1,.3,1) both}
+.slide.active .cmp .cmp-box:nth-child(1){animation-delay:.15s}
+.slide.active .cmp .cmp-box.bad:nth-child(3){animation-delay:.35s}
+.slide.active .vs{animation:an-scale .5s ease-out both;animation-delay:.55s}
+
+/* Portrait */
+.slide.active .portrait,
+.slide.active .portrait.fly{animation:an-left .7s cubic-bezier(.16,1,.3,1) both;animation-delay:.15s}
+
+/* Orbit satellites + notes */
+.slide.active .orbit-note > div,
+.slide.active .orbit-note > div.fly{animation:an-scale .6s ease-out both}
+.slide.active .orbit-note > div:nth-child(1){animation-delay:.20s}
+.slide.active .orbit-note > div:nth-child(2){animation-delay:.35s}
+.slide.active .orbit-note > div:nth-child(3){animation-delay:.50s}
+
+/* Closing messages */
+.slide.active .closing-msgs > div,
+.slide.active .closing-msgs > div.fly{animation:an-scale .55s ease-out both}
+.slide.active .closing-msgs > div:nth-child(1){animation-delay:.55s}
+.slide.active .closing-msgs > div:nth-child(2){animation-delay:.70s}
+.slide.active .closing-msgs > div:nth-child(3){animation-delay:.85s}
+.slide.active .closing-msgs > div:nth-child(4){animation-delay:1.00s}
+.slide.active .closing-msgs > div:nth-child(5){animation-delay:1.15s}
+.slide.active .qa-btn{animation:an-scale .7s cubic-bezier(.16,1,.3,1) both;animation-delay:.35s}
+.slide.active .thanks{animation:an-top .8s cubic-bezier(.16,1,.3,1) both;animation-delay:.1s}
+
+/* ── L1 HERO ── */
+.l-hero{align-items:center;justify-content:center;text-align:center;gap:1.2em}
+.l-hero .big{font-size:11.5em;line-height:.9;letter-spacing:-.03em}
+.l-hero .big.sm{font-size:8.6em}
+.l-hero .sub{font-size:2em;letter-spacing:.14em;text-transform:uppercase;color:var(--txt2)}
+.hero-glow{position:absolute;width:70em;height:70em;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(168,85,247,.22),rgba(236,72,153,.10) 40%,transparent 68%);
+  animation:pulseGlow 5s ease-in-out infinite;z-index:-1}
+@keyframes pulseGlow{0%,100%{transform:scale(1);opacity:.75}50%{transform:scale(1.12);opacity:1}}
+.holo-ring{position:absolute;pointer-events:none;border-radius:50%;border:1px solid rgba(168,85,247,.35);z-index:-1}
+.holo-ring.a{width:52em;height:52em;border-style:dashed;animation:spin 26s linear infinite}
+.holo-ring.b{width:68em;height:68em;border-color:rgba(34,211,238,.20);animation:spin 40s linear infinite reverse;border-top-color:var(--cyn);border-width:2px}
+.holo-ring.c{width:84em;height:84em;border-color:rgba(236,72,153,.16);animation:spin 60s linear infinite;border-left-color:var(--pnk)}
+.holo-ring .dot{position:absolute;top:-4px;left:50%;width:7px;height:7px;border-radius:50%;background:var(--cyn);box-shadow:0 0 14px var(--cyn)}
+.glitch{position:relative}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;inset:0;
+  background:inherit;-webkit-background-clip:text;background-clip:text;color:transparent;pointer-events:none}
+.glitch::before{animation:gl1 3.4s steps(1) infinite;mix-blend-mode:screen}
+.glitch::after{animation:gl2 2.7s steps(1) infinite;mix-blend-mode:screen}
+@keyframes gl1{0%,92%{transform:none;opacity:0}93%{transform:translate(-3px,1px);opacity:.85;filter:hue-rotate(60deg)}96%{transform:translate(2px,-1px);opacity:.6}100%{opacity:0}}
+@keyframes gl2{0%,88%{transform:none;opacity:0}89%{transform:translate(3px,-2px);opacity:.8;filter:hue-rotate(-60deg)}94%{transform:translate(-2px,2px);opacity:.5}100%{opacity:0}}
+
+/* ── L2 SPLIT ── */
+.l-split{display:grid;grid-template-columns:38% 1fr;gap:3.4em;align-items:center}
+.l-split .col-l{display:flex;flex-direction:column;gap:1.1em;position:relative;padding-right:2.4em}
+.l-split .col-l::after{content:'';position:absolute;right:0;top:6%;height:88%;width:1px;
+  background:linear-gradient(180deg,transparent,var(--pur),var(--cyn),transparent);
+  box-shadow:0 0 14px rgba(168,85,247,.7)}
+.big-ico{width:4.4em;height:4.4em;color:var(--pur);filter:drop-shadow(0 0 16px rgba(168,85,247,.8))}
+.col-l h2{font-size:3.3em;line-height:1.05;font-family:var(--f-head);font-weight:600;
+  background:linear-gradient(110deg,#fff,var(--txt2) 60%,var(--pur));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.col-l .tag{font-family:var(--f-mono);font-size:1.2em;color:var(--cyn);letter-spacing:.2em}
+
+/* ── L3 GRID CARDS ── */
+.l-grid{display:flex;flex-direction:column;gap:2.2em}
+.cards{display:grid;gap:1.8em}
+.cards.c3{grid-template-columns:repeat(3,1fr)}
+.cards.c2{grid-template-columns:repeat(2,1fr)}
+.card{position:relative;padding:2em 1.7em;border:1px solid var(--line);border-radius:.5em;
+  background:linear-gradient(155deg,rgba(35,18,62,.6),rgba(14,8,26,.4));
+  backdrop-filter:blur(10px);overflow:hidden;
+  transition:transform .38s cubic-bezier(.16,1,.3,1),box-shadow .38s,border-color .38s}
+.card::after{content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.10),transparent);
+  transform:skewX(-18deg);transition:left .6s ease}
+.card:hover{transform:translateY(-.7em);border-color:var(--pur);
+  box-shadow:0 0 26px rgba(168,85,247,.5),0 14px 40px rgba(0,0,0,.55)}
+.card:hover::after{left:130%}
+.card .c-ico{width:2.6em;height:2.6em;color:var(--cyn);margin-bottom:.7em;filter:drop-shadow(0 0 12px rgba(34,211,238,.7))}
+.card h3{font-family:var(--f-head);font-size:1.95em;font-weight:600;color:var(--txt);margin-bottom:.45em;line-height:1.2}
+.card p{font-size:1.25em;line-height:1.5;color:var(--txt2);font-weight:300}
+.card .num{position:absolute;top:.3em;right:.5em;font-family:var(--f-deco);font-size:2.6em;font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(168,85,247,.35);line-height:1}
+.card.rom .num{font-size:3.4em}
+
+/* ── L4 TIMELINE ── */
+.l-timeline{display:flex;flex-direction:column;justify-content:center;gap:1em}
+.tl{position:relative;display:flex;flex-direction:column;gap:1.5em;padding-left:0}
+.tl::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-1px);
+  background:linear-gradient(180deg,transparent,var(--pur) 12%,var(--cyn) 50%,var(--pnk) 88%,transparent);
+  box-shadow:0 0 14px rgba(168,85,247,.65)}
+.tl-item{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:3em;align-items:center}
+.tl-item .node{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:1.5em;height:1.5em;border-radius:50%;background:var(--bg1);border:2px solid var(--pur);
+  box-shadow:0 0 16px var(--pur);z-index:2;display:grid;place-items:center}
+.tl-item .node::after{content:'';width:.5em;height:.5em;border-radius:50%;background:var(--cyn);box-shadow:0 0 10px var(--cyn)}
+.tl-item .body{border:1px solid var(--line);border-radius:.45em;padding:1em 1.3em;
+  background:linear-gradient(150deg,rgba(32,16,58,.62),rgba(13,7,24,.42));backdrop-filter:blur(9px)}
+.tl-item .body h4{font-family:var(--f-head);font-size:1.55em;font-weight:600;color:var(--txt);margin-bottom:.25em}
+.tl-item .body p{font-size:1.12em;color:var(--txt2);line-height:1.45;font-weight:300}
+.tl-item .stamp{font-family:var(--f-mono);font-size:1.05em;color:var(--cyn);letter-spacing:.14em;margin-bottom:.35em;display:block}
+.tl-item:nth-child(odd) .body{grid-column:1;text-align:right}
+.tl-item:nth-child(odd) .body .stamp{justify-content:flex-end;display:flex}
+.tl-item:nth-child(even) .body{grid-column:2}
+.tl-item:nth-child(odd) .spacer{grid-column:2}
+.tl-item:nth-child(even) .spacer{grid-column:1}
+
+/* ── L5 QUOTE HERO ── */
+.l-quote{align-items:center;justify-content:center;text-align:center;gap:1.4em}
+.qwrap{position:relative;max-width:82%;padding:0 4em}
+.qmark{position:absolute;font-family:var(--f-head);font-size:16em;line-height:1;color:var(--pur);opacity:.22;filter:drop-shadow(0 0 24px var(--pur));pointer-events:none}
+.qmark.l{top:-.28em;left:-.55em}
+.qmark.r{bottom:-.62em;right:-.55em;transform:rotate(180deg)}
+.qtext{font-family:var(--f-head);font-size:3.3em;line-height:1.32;font-weight:500;font-style:italic;
+  background:linear-gradient(100deg,#fff,var(--txt2) 55%,var(--pur));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px rgba(168,85,247,.4))}
+.qauth{font-family:var(--f-mono);font-size:1.2em;letter-spacing:.32em;color:var(--cyn);text-transform:uppercase}
+.quote-bullets{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:1.4em;width:88%;margin-top:.6em}
+.qb{border:1px solid var(--line);border-radius:.45em;padding:1.1em 1.2em;text-align:left;
+  background:linear-gradient(150deg,rgba(30,15,55,.55),rgba(13,7,24,.38));backdrop-filter:blur(9px)}
+.qb span{display:block;font-family:var(--f-mono);font-size:1em;color:var(--cyn);margin-bottom:.35em}
+.qb p{font-size:1.22em;color:var(--txt2);line-height:1.4;font-weight:300}
+
+/* ── L6 COMPARE ── */
+.l-compare{display:flex;flex-direction:column;gap:2em;justify-content:center}
+.cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:2.6em;align-items:stretch}
+.cmp-box{position:relative;border-radius:.55em;padding:2.4em 2em;display:flex;flex-direction:column;gap:.85em;
+  border:1px solid var(--line);background:linear-gradient(160deg,rgba(35,18,62,.65),rgba(13,7,24,.42));backdrop-filter:blur(11px);overflow:hidden}
+.cmp-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--pur),transparent);box-shadow:0 0 14px var(--pur)}
+.cmp-box.bad{border-color:rgba(244,63,94,.4)}
+.cmp-box.bad::before{background:linear-gradient(90deg,transparent,var(--rose),transparent);box-shadow:0 0 14px var(--rose)}
+.cmp-box .lbl{font-family:var(--f-mono);font-size:1.1em;letter-spacing:.28em;color:var(--cyn);text-transform:uppercase}
+.cmp-box.bad .lbl{color:var(--rose)}
+.cmp-box h3{font-family:var(--f-head);font-size:2.4em;font-weight:600;color:var(--txt);line-height:1.15}
+.cmp-box p{font-size:1.32em;color:var(--txt2);line-height:1.5;font-weight:300}
+.vs{display:grid;place-items:center;font-family:var(--f-deco);font-size:2.6em;font-weight:900;color:var(--txt);
+  text-shadow:0 0 20px var(--pur),0 0 40px var(--pnk);align-self:center;animation:vsPulse 2.6s ease-in-out infinite}
+@keyframes vsPulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.14);opacity:1}}
+
+/* ── L7 STAT ── */
+.l-stat{display:flex;flex-direction:column;gap:2.4em;justify-content:center}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6em}
+.stat{position:relative;text-align:center;padding:1.8em 1em;border:1px solid var(--line);border-radius:.5em;
+  background:linear-gradient(160deg,rgba(35,18,62,.55),rgba(13,7,24,.38));backdrop-filter:blur(10px);
+  transition:transform .35s,box-shadow .35s,border-color .35s}
+.stat:hover{transform:translateY(-.5em);border-color:var(--pur);box-shadow:0 0 26px rgba(168,85,247,.45)}
+.stat .n{font-family:var(--f-deco);font-size:5.2em;font-weight:900;line-height:1;
+  background:linear-gradient(140deg,#fff,var(--pur) 55%,var(--pnk));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px rgba(168,85,247,.6))}
+.stat .u{font-family:var(--f-mono);font-size:1.05em;letter-spacing:.24em;color:var(--cyn);margin-top:.4em}
+.stat .ic{width:1.8em;height:1.8em;color:var(--pnk);margin:0 auto .35em;filter:drop-shadow(0 0 10px rgba(236,72,153,.7))}
+
+/* ── L8 FLOW ── */
+.l-flow{display:flex;flex-direction:column;gap:1.8em;justify-content:center}
+.flow{position:relative;display:flex;flex-direction:column;gap:1.05em}
+.flow::before{content:'';position:absolute;left:2.4em;top:1.5em;bottom:1.5em;width:1px;
+  background:linear-gradient(180deg,transparent,var(--pur),var(--cyn),transparent);opacity:.6}
+.fstep{position:relative;display:grid;grid-template-columns:5.4em 1fr;gap:1.6em;align-items:start;
+  padding:1.05em 1.4em 1.05em 0;border-radius:.45em;transition:background .3s,transform .3s}
+.fstep:hover{background:rgba(168,85,247,.07);transform:translateX(.5em)}
+.fstep .idx{font-family:var(--f-deco);font-size:1.9em;font-weight:900;color:transparent;
+  -webkit-text-stroke:1px var(--pur);text-align:center;line-height:1.1;padding-top:.1em;
+  text-shadow:0 0 18px rgba(168,85,247,.5)}
+.fstep .txt h4{font-family:var(--f-head);font-size:1.6em;font-weight:600;color:var(--txt);margin-bottom:.2em}
+.fstep .txt p{font-size:1.2em;color:var(--txt2);line-height:1.48;font-weight:300}
+
+/* ── L9 PORTRAIT ── */
+.l-portrait{display:grid;grid-template-columns:33% 1fr;gap:3.6em;align-items:center}
+.portrait{position:relative;aspect-ratio:1/1.15;border-radius:.6em;border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(40,20,70,.65),rgba(13,7,24,.5));
+  display:grid;place-items:center;overflow:hidden;backdrop-filter:blur(10px);
+  box-shadow:inset 0 0 44px rgba(168,85,247,.16),0 0 30px rgba(168,85,247,.18)}
+.portrait::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(168,85,247,.12) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(168,85,247,.12) 1px,transparent 1px);
+  background-size:22px 22px;mask-image:radial-gradient(circle at 50% 50%,#000,transparent 82%)}
+.portrait .ph{width:9em;height:9em;color:var(--pur);opacity:.55;filter:drop-shadow(0 0 22px rgba(168,85,247,.8))}
+.portrait .corner{position:absolute;width:1.6em;height:1.6em;border:2px solid var(--cyn);opacity:.85}
+.portrait .corner.tl{top:.7em;left:.7em;border-right:none;border-bottom:none}
+.portrait .corner.tr{top:.7em;right:.7em;border-left:none;border-bottom:none}
+.portrait .corner.bl{bottom:.7em;left:.7em;border-right:none;border-top:none}
+.portrait .corner.br{bottom:.7em;right:.7em;border-left:none;border-top:none}
+.portrait .scanbar{position:absolute;left:0;right:0;height:14%;background:linear-gradient(180deg,transparent,rgba(34,211,238,.22),transparent);animation:pscan 4.5s linear infinite}
+@keyframes pscan{0%{top:-15%}100%{top:105%}}
+.portrait .nm{position:absolute;bottom:1em;left:0;right:0;text-align:center;
+  font-family:var(--f-head);font-size:1.7em;font-weight:600;color:var(--txt);
+  text-shadow:0 0 16px rgba(168,85,247,.8);letter-spacing:.05em}
+
+/* ── L10 QUOTE+CAPTION ── */
+.l-qcap{align-items:center;justify-content:center;text-align:center;gap:1.6em}
+.qcap-quote{font-family:var(--f-head);font-size:3.6em;font-style:italic;line-height:1.3;font-weight:500;max-width:78%;
+  background:linear-gradient(100deg,#fff,var(--pnk) 60%,var(--pur));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 20px rgba(236,72,153,.45))}
+.qcap-line{width:14em;height:1px;background:linear-gradient(90deg,transparent,var(--pnk),var(--cyn),transparent);box-shadow:0 0 14px rgba(236,72,153,.7)}
+.qcap-cap{font-size:1.5em;color:var(--txt2);max-width:70%;line-height:1.6;font-weight:300}
+
+/* ── L11 ORBIT ── */
+.l-orbit{display:flex;flex-direction:column;gap:1.6em;justify-content:center;align-items:center}
+.orbit-stage{position:relative;width:52em;height:34em;display:grid;place-items:center}
+.orbit-core{position:relative;z-index:3;width:11em;height:11em;border-radius:50%;
+  display:grid;place-items:center;text-align:center;
+  background:radial-gradient(circle,rgba(168,85,247,.42),rgba(124,58,237,.14) 60%,transparent 72%);
+  border:1px solid var(--pur);box-shadow:0 0 40px rgba(168,85,247,.65),inset 0 0 32px rgba(168,85,247,.35)}
+.orbit-core span{font-family:var(--f-deco);font-size:1.15em;font-weight:700;letter-spacing:.16em;color:#fff;text-shadow:0 0 16px var(--pur)}
+.orbit-ring{position:absolute;border-radius:50%;border:1px dashed rgba(168,85,247,.32)}
+.orbit-ring.r1{width:24em;height:24em;animation:spin 22s linear infinite}
+.orbit-ring.r2{width:34em;height:34em;border-color:rgba(34,211,238,.26);animation:spin 34s linear infinite reverse}
+.orbit-ring.r3{width:44em;height:44em;border-color:rgba(236,72,153,.24);animation:spin 48s linear infinite}
+.orbit-sat{position:absolute;top:50%;left:50%;transform-origin:0 0}
+.sat{position:absolute;transform:translate(-50%,-50%);
+  border:1px solid var(--line);border-radius:.45em;padding:.75em 1.1em;white-space:nowrap;
+  background:linear-gradient(150deg,rgba(35,18,62,.9),rgba(13,7,24,.85));backdrop-filter:blur(8px);
+  box-shadow:0 0 22px rgba(168,85,247,.42)}
+.sat b{display:block;font-family:var(--f-head);font-size:1.35em;color:var(--txt);font-weight:600}
+.sat i{font-style:normal;font-family:var(--f-mono);font-size:.85em;letter-spacing:.2em;color:var(--cyn)}
+.sat.cy{border-color:rgba(34,211,238,.5);box-shadow:0 0 22px rgba(34,211,238,.4)}
+.sat.pk{border-color:rgba(236,72,153,.5);box-shadow:0 0 22px rgba(236,72,153,.4)}
+.orbit-note{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6em;width:100%;max-width:88%}
+.orbit-note div{border:1px solid var(--line);border-radius:.45em;padding:1em 1.2em;
+  background:linear-gradient(150deg,rgba(30,15,55,.55),rgba(13,7,24,.38));backdrop-filter:blur(9px)}
+.orbit-note h4{font-family:var(--f-head);font-size:1.35em;color:var(--txt);margin-bottom:.3em}
+.orbit-note p{font-size:1.08em;color:var(--txt2);line-height:1.42;font-weight:300}
+
+/* ── L12 CLOSING ── */
+.l-closing{align-items:center;justify-content:center;text-align:center;gap:1.5em}
+.l-closing .thanks{font-family:var(--f-head);font-size:12em;font-weight:700;line-height:.9;letter-spacing:-.02em;
+  background:linear-gradient(120deg,#fff,var(--txt2) 30%,var(--pur) 60%,var(--pnk) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 30px rgba(168,85,247,.7));animation:thanksPulse 4s ease-in-out infinite}
+@keyframes thanksPulse{0%,100%{filter:drop-shadow(0 0 26px rgba(168,85,247,.6))}50%{filter:drop-shadow(0 0 52px rgba(236,72,153,.85))}}
+.qa-btn{position:relative;font-family:var(--f-deco);font-size:2.6em;font-weight:900;letter-spacing:.24em;
+  padding:.55em 1.9em;border:2px solid var(--pur);border-radius:.15em;color:#fff;
+  background:linear-gradient(120deg,rgba(168,85,247,.22),rgba(236,72,153,.16));
+  box-shadow:0 0 26px rgba(168,85,247,.6),inset 0 0 22px rgba(168,85,247,.28);
+  transition:transform .3s,box-shadow .3s;overflow:hidden}
+.qa-btn:hover{transform:scale(1.06);box-shadow:0 0 48px rgba(168,85,247,.95),0 0 90px rgba(236,72,153,.55),inset 0 0 34px rgba(168,85,247,.4)}
+.qa-btn::after{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);
+  transform:skewX(-18deg);animation:shine 3.2s ease-in-out infinite}
+@keyframes shine{0%{left:-70%}55%{left:140%}100%{left:140%}}
+.closing-msgs{display:grid;grid-template-columns:repeat(5,1fr);gap:1.1em;width:94%;margin-top:.6em}
+.closing-msgs div{border:1px solid var(--line);border-radius:.4em;padding:.85em .7em;
+  background:linear-gradient(150deg,rgba(30,15,55,.5),rgba(13,7,24,.35));
+  font-size:1.06em;color:var(--txt2);line-height:1.35;font-weight:300}
+.closing-msgs b{display:block;font-family:var(--f-mono);color:var(--cyn);font-size:.85em;letter-spacing:.16em;margin-bottom:.3em}
+
+/* ══════════════════════════════════════════════════════
+   5. CHROME
+   ══════════════════════════════════════════════════════ */
+.topbar{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;background:rgba(168,85,247,.12)}
+.topbar .fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyn),var(--pur),var(--pnk));
+  box-shadow:0 0 14px rgba(168,85,247,.9);transition:width .45s cubic-bezier(.16,1,.3,1)}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:270px;z-index:55;
+  background:linear-gradient(180deg,rgba(13,8,24,.96),rgba(21,10,38,.92));
+  border-right:1px solid var(--line);backdrop-filter:blur(16px);
+  transform:translateX(-100%);transition:transform .45s cubic-bezier(.16,1,.3,1);
+  display:flex;flex-direction:column;padding:26px 20px;gap:14px;overflow-y:auto}
+.sidebar.open{transform:none}
+.sidebar h5{font-family:var(--f-mono);font-size:11px;letter-spacing:.34em;color:var(--cyn);text-transform:uppercase;margin-bottom:6px}
+.sb-item{display:flex;align-items:center;gap:12px;padding:11px 13px;border:1px solid transparent;border-radius:7px;
+  font-size:13.5px;color:var(--txt2);cursor:pointer;transition:.25s;text-align:left;width:100%}
+.sb-item:hover{background:rgba(168,85,247,.10);border-color:var(--line);color:var(--txt)}
+.sb-item.on{background:linear-gradient(100deg,rgba(168,85,247,.24),rgba(236,72,153,.12));border-color:var(--pur);color:#fff;box-shadow:0 0 16px rgba(168,85,247,.35)}
+.sb-item .rn{font-family:var(--f-deco);font-size:12px;color:var(--pur);min-width:24px}
+.sb-list{display:flex;flex-direction:column;gap:4px}
+.sb-list .mini{font-size:11.6px;color:var(--txt3);padding:5px 13px;cursor:pointer;border-radius:5px;transition:.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-list .mini:hover{color:var(--cyn);background:rgba(34,211,238,.07)}
+.sb-list .mini.on{color:#fff;background:rgba(168,85,247,.16)}
+.hamburger{position:fixed;top:18px;left:18px;z-index:58;width:44px;height:44px;border-radius:9px;
+  border:1px solid var(--line);background:rgba(20,11,38,.82);backdrop-filter:blur(10px);
+  display:grid;place-items:center;gap:4px;transition:.3s}
+.hamburger:hover{border-color:var(--pur);box-shadow:0 0 18px rgba(168,85,247,.55)}
+.hamburger i{display:block;width:19px;height:2px;background:var(--txt2);border-radius:2px;transition:.3s}
+.hamburger:hover i{background:var(--cyn);box-shadow:0 0 8px var(--cyn)}
+.controls{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:56;
+  display:flex;align-items:center;gap:14px;padding:9px 15px;border-radius:100px;
+  border:1px solid var(--line);background:rgba(16,9,30,.82);backdrop-filter:blur(14px);
+  box-shadow:0 8px 34px rgba(0,0,0,.6)}
+.nav-btn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);color:var(--txt2);transition:.28s}
+.nav-btn:hover{color:#fff;border-color:var(--pur);background:rgba(168,85,247,.2);box-shadow:0 0 20px rgba(168,85,247,.7);transform:scale(1.09)}
+.nav-btn:disabled{opacity:.28;cursor:not-allowed;transform:none;box-shadow:none}
+.counter{font-family:var(--f-mono);font-size:13px;color:var(--txt2);letter-spacing:.1em;min-width:66px;text-align:center}
+.counter b{color:var(--cyn);text-shadow:0 0 10px rgba(34,211,238,.7)}
+.segs{display:flex;gap:5px}
+.seg{width:26px;height:4px;border-radius:2px;background:rgba(168,85,247,.22);cursor:pointer;transition:.3s}
+.seg:hover{background:rgba(168,85,247,.55)}
+.seg.on{background:linear-gradient(90deg,var(--pur),var(--pnk));box-shadow:0 0 12px rgba(168,85,247,.85)}
+.mini-btns{display:flex;gap:6px;margin-left:4px}
+.mini-btns button{width:30px;height:30px;border-radius:7px;border:1px solid var(--line);color:var(--txt3);font-family:var(--f-mono);font-size:11px;transition:.25s;display:grid;place-items:center}
+.mini-btns button:hover{color:var(--cyn);border-color:var(--cyn);box-shadow:0 0 14px rgba(34,211,238,.5)}
+.overview{position:fixed;inset:0;z-index:70;background:rgba(8,4,16,.96);backdrop-filter:blur(18px);opacity:0;visibility:hidden;transition:.35s;overflow-y:auto;padding:80px 40px 60px}
+.overview.open{opacity:1;visibility:visible}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;max-width:1500px;margin:0 auto}
+.ov-card{position:relative;aspect-ratio:16/9;border:1px solid var(--line);border-radius:9px;background:linear-gradient(150deg,rgba(32,16,58,.7),rgba(12,6,22,.55));cursor:pointer;padding:16px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:.28s}
+.ov-card:hover{border-color:var(--pur);transform:translateY(-5px);box-shadow:0 0 28px rgba(168,85,247,.55)}
+.ov-card .on{font-family:var(--f-deco);font-size:26px;font-weight:900;background:linear-gradient(140deg,#fff,var(--pur));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ov-card .ot{font-size:13px;color:var(--txt2);line-height:1.35}
+.ov-card.on{border-color:var(--cyn);box-shadow:0 0 26px rgba(34,211,238,.55)}
+.ov-card .part{position:absolute;top:12px;right:14px;font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;color:var(--cyn)}
+.ov-head{text-align:center;margin-bottom:34px}
+.ov-head h2{font-family:var(--f-head);font-size:32px;font-weight:600;background:linear-gradient(100deg,#fff,var(--pur));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hint{position:fixed;bottom:22px;right:22px;z-index:54;font-family:var(--f-mono);font-size:11px;color:var(--txt3);letter-spacing:.1em;text-align:right;line-height:1.7;opacity:.7;pointer-events:none}
+.hint kbd{border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--txt2);background:rgba(168,85,247,.1)}
+@media (max-width:820px){
+  .l-split,.l-portrait{grid-template-columns:1fr;gap:1.6em}
+  .l-split .col-l{padding-right:0}
+  .l-split .col-l::after{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .cmp{grid-template-columns:1fr;gap:1em}
+  .vs{font-size:1.8em}
+  .cards.c3{grid-template-columns:1fr}
+  .closing-msgs{grid-template-columns:1fr 1fr}
+  .sidebar{width:240px}
+  .hint{display:none}
+}
+</style>
 </head>
 <body>
-    <div class="box">
-        <h1>🌈 TRANG CHỦ 🌈</h1>
-        <button class="btn1" onclick="vaoTrang2()">Vào Trang 2</button>
-        <button class="btn2" onclick="thoatWeb()">Thoát Web</button>
+
+<!-- ═══════════ SVG ICON SPRITE ═══════════ -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h6v18H5a2 2 0 0 1-2-2V5Z"/><path d="M21 5a2 2 0 0 0-2-2h-6v18h6a2 2 0 0 0 2-2V5Z"/><path d="M12 3v18"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></symbol>
+  <symbol id="i-school" viewBox="0 0 24 24"><path d="M3 10l9-5 9 5-9 5-9-5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9L12 2z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l8.8 8.8 8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-mask" viewBox="0 0 24 24"><path d="M2 7c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v3c0 5-4 9-9 9h-2c-5 0-9-4-9-9V7z"/><circle cx="8" cy="10" r="1.4"/><circle cx="16" cy="10" r="1.4"/></symbol>
+  <symbol id="i-ring" viewBox="0 0 24 24"><circle cx="12" cy="14" r="7"/><path d="M9 5l3-3 3 3-3 3-3-3z"/></symbol>
+  <symbol id="i-chain" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1L12 2z"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M6 11c0-3 2-5 5-5v3c-1 0-2 1-2 2h2v6H6v-6z"/><path d="M15 11c0-3 2-5 5-5v3c-1 0-2 1-2 2h2v6h-5v-6z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></symbol>
+  <symbol id="i-hex" viewBox="0 0 24 24"><path d="M12 2l8.7 5v10L12 22l-8.7-5V7L12 2z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-broken" viewBox="0 0 24 24"><path d="M12 3v6l-3 3 4 3-2 6"/><circle cx="12" cy="12" r="10"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+  <symbol id="i-full" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-menub" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+</svg>
+
+<!-- ═══════════ BACKGROUND ═══════════ -->
+<div class="bg">
+  <div class="bg-grid"></div>
+  <div class="bg-hex"></div>
+  <div class="bg-corner tl"></div>
+  <div class="bg-corner tr"></div>
+  <div class="bg-corner br"></div>
+  <canvas id="particles"></canvas>
+  <div class="scan"></div>
+  <div class="scanlines"></div>
+  <div class="vig"></div>
+</div>
+<div class="glitch-flash" id="gflash"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<button class="hamburger" id="hamburger" title="Menu (M)"><i></i><i></i><i></i></button>
+<aside class="sidebar" id="sidebar">
+  <div>
+    <h5>Raphael // Index</h5>
+    <div style="font-family:var(--f-head);font-size:19px;font-weight:600;color:#fff;margin-top:2px">LÀM ĐĨ</div>
+    <div style="font-family:var(--f-mono);font-size:10.5px;color:var(--txt3);letter-spacing:.18em;margin-top:2px">VŨ TRỌNG PHỤNG · 1936</div>
+  </div>
+  <hr class="hr" style="margin:6px 0 10px">
+  <div class="sb-list" id="sbParts"></div>
+  <hr class="hr" style="margin:8px 0">
+  <div class="sb-list" id="sbSlides"></div>
+</aside>
+
+<div class="topbar"><div class="fill" id="topfill"></div></div>
+
+<!-- ═══════════ DECK ═══════════ -->
+<main class="stage" id="deck">
+
+<!-- SLIDE 1 · BÌA · T6 ZOOM OUT -->
+<section class="slide" data-part="0" data-title="Trang bìa" data-transition="T6">
+  <div class="hero-glow"></div>
+  <div class="l-hero" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:1.2em">
+    <div class="kicker center">Bài thuyết trình văn học</div>
+    <h1 class="big glitch" data-t="LÀM ĐĨ" data-type>LÀM ĐĨ</h1>
+    <hr class="hr" style="width:36em">
+    <div class="sub" style="letter-spacing:.32em">VŨ TRỌNG PHỤNG</div>
+    <div class="mono" style="font-size:1.15em;color:var(--txt3);letter-spacing:.28em">1912 — 1939</div>
+  </div>
+</section>
+
+<!-- SLIDE 2 · THÔNG TIN NHÓM · T1 FLY LEFT -->
+<section class="slide" data-part="0" data-title="Thông tin nhóm" data-transition="T1">
+  <div class="l-split">
+    <div class="col-l">
+      <div><svg class="big-ico ico"><use href="#i-school"/></svg></div>
+      <div class="tag">// TEAM PROFILE</div>
+      <h2>Nhóm<br>thực hiện</h2>
+      <p class="sub" style="font-size:1.35em">Bài thuyết trình môn Ngữ văn — Tổ 4</p>
     </div>
+    <div class="panel">
+      <ul class="bullets">
+        <li><b>Trường THPT</b> — Khối 12</li>
+        <li><b>Khoa:</b> Ngữ văn</li>
+        <li><b>Tổ:</b> 4 &nbsp;·&nbsp; <b>Lớp:</b> 12C6</li>
+        <li><b>Giáo viên hướng dẫn:</b> Lê Quang Vượng</li>
+        <li><b>Đề tài:</b> Tác phẩm "Làm Đĩ" — Vũ Trọng Phụng</li>
+      </ul>
+      <hr class="hr">
+      <div class="mono" style="font-size:1.05em;color:var(--cyn);letter-spacing:.16em">▸ SYSTEM READY · PRESENTATION MODE</div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        function vaoTrang2() {
-            window.location.href = "page2.html";
-        }
+<!-- SLIDE 3 · MỤC LỤC · T8 WIPE RIGHT -->
+<section class="slide" data-part="0" data-title="Mục lục" data-transition="T8">
+  <div class="l-grid">
+    <div>
+      <div class="kicker">// CONTENTS</div>
+      <h2 class="sec" style="margin-top:.25em">Mục lục</h2>
+    </div>
+    <div class="cards c2">
+      <div class="card rom"><div class="num">I</div><svg class="c-ico ico"><use href="#i-user"/></svg><h3>Tác giả</h3><p>Tiểu sử, phong cách &amp; sự nghiệp của Vũ Trọng Phụng</p></div>
+      <div class="card rom"><div class="num">II</div><svg class="c-ico ico"><use href="#i-book"/></svg><h3>Tác phẩm</h3><p>Khái quát "Làm Đĩ" và bối cảnh xã hội đương thời</p></div>
+      <div class="card rom"><div class="num">III</div><svg class="c-ico ico"><use href="#i-heart"/></svg><h3>Cuộc đời Huyền</h3><p>Hành trình bi kịch của nhân vật trung tâm</p></div>
+      <div class="card rom"><div class="num">IV</div><svg class="c-ico ico"><use href="#i-star"/></svg><h3>Giá trị</h3><p>Hiện thực · Nhân đạo · Nghệ thuật</p></div>
+    </div>
+  </div>
+</section>
 
-        function thoatWeb() {
-            window.close();
+<!-- SLIDE 4 · DIVIDER I · T9 CURTAIN -->
+<section class="slide" data-part="0" data-title="Phần I" data-transition="T9">
+  <div class="holo-ring c"></div><div class="holo-ring b"></div><div class="holo-ring a"><span class="dot"></span></div>
+  <div class="hero-glow"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:1em;text-align:center">
+    <div class="kicker center">Part One</div>
+    <h1 class="big sm glitch" data-t="GIỚI THIỆU TÁC GIẢ" data-type style="font-size:6.6em;max-width:88%">GIỚI THIỆU TÁC GIẢ</h1>
+    <hr class="hr" style="width:30em">
+    <div class="mono" style="font-size:1.15em;color:var(--cyn);letter-spacing:.4em">// VŨ TRỌNG PHỤNG</div>
+  </div>
+</section>
+
+<!-- SLIDE 5 · TIỂU SỬ · T1 FLY LEFT -->
+<section class="slide" data-part="0" data-title="Tiểu sử Vũ Trọng Phụng" data-transition="T1">
+  <div class="l-split">
+    <div class="col-l">
+      <div><svg class="big-ico ico"><use href="#i-pen"/></svg></div>
+      <div class="tag">// BIOGRAPHY</div>
+      <h2>Vũ Trọng<br>Phụng</h2>
+      <div class="mono" style="font-size:1.6em;color:var(--pnk);letter-spacing:.12em">(1912 – 1939)</div>
+    </div>
+    <div class="panel">
+      <ul class="bullets">
+        <li><b>Tên thật:</b> Vũ Trọng Phụng, sinh ngày <b>20/10/1912</b> tại Hà Nội.</li>
+        <li><b>Quê gốc:</b> làng Hảo, huyện Mỹ Hào, tỉnh Hưng Yên.</li>
+        <li><b>Mất:</b> 13/10/1939 — chỉ sống vỏn vẹn <b>27 năm</b>, cõi đời quá ngắn cho một tài năng quá lớn.</li>
+        <li><b>Danh hiệu:</b> "Ông vua phóng sự đất Bắc", cây bút hiện thực trào phúng bậc thầy.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 · SỰ NGHIỆP · T5 ZOOM IN -->
+<section class="slide" data-part="0" data-title="Phong cách & sự nghiệp" data-transition="T5">
+  <div class="l-stat">
+    <div>
+      <div class="kicker">// CAREER DATA</div>
+      <h2 class="sec" style="margin-top:.2em">Phong cách &amp; sự nghiệp</h2>
+    </div>
+    <div class="stats">
+      <div class="stat"><svg class="ic ico"><use href="#i-book"/></svg><div class="n" data-count="30">0</div><div class="u">TRUYỆN NGẮN</div></div>
+      <div class="stat"><svg class="ic ico"><use href="#i-layers"/></svg><div class="n" data-count="9">0</div><div class="u">TIỂU THUYẾT</div></div>
+      <div class="stat"><svg class="ic ico"><use href="#i-search"/></svg><div class="n" data-count="9">0</div><div class="u">PHÓNG SỰ</div></div>
+      <div class="stat"><svg class="ic ico"><use href="#i-mask"/></svg><div class="n" data-count="7">0</div><div class="u">VỞ KỊCH</div></div>
+    </div>
+    <div class="panel">
+      <ul class="bullets cy" style="gap:.7em">
+        <li><b>Hiện thực sắc bén:</b> lột trần xã hội thực dân nửa phong kiến đang mục ruỗng.</li>
+        <li><b>Trào phúng châm biếm:</b> tiếng cười đau đớn phía sau mỗi trang văn.</li>
+        <li><b>Ngôn ngữ trần trụi:</b> dám nói thẳng điều xã hội muốn che giấu.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 · TÁC PHẨM KHÁC · T8 WIPE RIGHT -->
+<section class="slide" data-part="0" data-title="Các tác phẩm nổi tiếng" data-transition="T8">
+  <div class="l-grid">
+    <div>
+      <div class="kicker">// OTHER WORKS</div>
+      <h2 class="sec" style="margin-top:.2em">Các tác phẩm nổi tiếng khác</h2>
+    </div>
+    <div class="cards c3">
+      <div class="card"><div class="num">01</div><svg class="c-ico ico"><use href="#i-book"/></svg><h3>Con người điêu trá</h3><p>Phóng sự châm biếm về xã hội thị thành đầy giả dối.</p></div>
+      <div class="card"><div class="num">02</div><svg class="c-ico ico"><use href="#i-layers"/></svg><h3>Giông Tố</h3><p>Tiểu thuyết hiện thực — bức tranh Hà Nội trước cách mạng.</p></div>
+      <div class="card"><div class="num">03</div><svg class="c-ico ico"><use href="#i-warn"/></svg><h3>Vỡ Đê</h3><p>Phóng sự đau xót về nạn đói và sự thối nát của quan lại.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8 · TÁC PHẨM TIÊU BIỂU · T6 ZOOM OUT -->
+<section class="slide" data-part="0" data-title="Tác phẩm tiêu biểu" data-transition="T6">
+  <div class="hero-glow"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:1.3em;text-align:center">
+    <div class="kicker center">Tác phẩm tiêu biểu nhất</div>
+    <h1 class="big glitch" data-t="LÀM ĐĨ" data-type style="font-size:10.5em">LÀM ĐĨ</h1>
+    <div class="mono" style="font-size:1.7em;color:var(--cyn);letter-spacing:.45em">— 1936 —</div>
+    <div class="cards c3" style="width:88%;margin-top:.6em">
+      <div class="card" style="padding:1.1em 1.2em"><p style="font-size:1.15em"><b style="color:var(--cyn)">▸</b> Tựa gốc: <b>Làm Đĩ</b></p></div>
+      <div class="card" style="padding:1.1em 1.2em"><p style="font-size:1.15em"><b style="color:var(--cyn)">▸</b> Nhà xuất bản bị <b>cấm phát hành</b></p></div>
+      <div class="card" style="padding:1.1em 1.2em"><p style="font-size:1.15em"><b style="color:var(--cyn)">▸</b> Tác phẩm <b>tâm huyết nhất</b> của ông</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 · DIVIDER II · T4 DROP DOWN -->
+<section class="slide" data-part="1" data-title="Phần II" data-transition="T4">
+  <div class="holo-ring c"></div><div class="holo-ring b"></div><div class="holo-ring a"><span class="dot"></span></div>
+  <div class="hero-glow"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:1em;text-align:center">
+    <div class="kicker center">Part Two</div>
+    <h1 class="big sm glitch" data-t="TÁC PHẨM «LÀM ĐĨ»" data-type style="font-size:6.4em;max-width:90%">TÁC PHẨM «LÀM ĐĨ»</h1>
+    <hr class="hr" style="width:30em">
+    <div class="mono" style="font-size:1.15em;color:var(--cyn);letter-spacing:.4em">// 1936 · HÀ NỘI</div>
+  </div>
+</section>
+
+<!-- SLIDE 10 · KHÁI QUÁT · T2 FLY RIGHT -->
+<section class="slide" data-part="1" data-title="Khái quát tác phẩm" data-transition="T2">
+  <div class="l-split">
+    <div class="col-l">
+      <div><svg class="big-ico ico"><use href="#i-book"/></svg></div>
+      <div class="tag">// OVERVIEW</div>
+      <h2>Khái quát<br>«Làm Đĩ»</h2>
+    </div>
+    <div class="panel">
+      <ul class="bullets">
+        <li><b>Hoàn cảnh:</b> viết năm 1936, bị chính quyền thực dân cấm lưu hành.</li>
+        <li><b>Thể loại:</b> tiểu thuyết hiện thực — phóng sự xã hội.</li>
+        <li><b>Nhân vật chính:</b> <b>Huyền</b> — người con gái bị xã hội vùi dập.</li>
+        <li><b>Nội dung:</b> hành trình trượt dài của một người phụ nữ từ cô gái trong trắng đến gái điếm.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11 · BỐI CẢNH XÃ HỘI · T3 RISE UP -->
+<section class="slide" data-part="1" data-title="Bối cảnh xã hội" data-transition="T3">
+  <div class="l-flow">
+    <div>
+      <div class="kicker">// SOCIAL CONTEXT</div>
+      <h2 class="sec" style="margin-top:.2em">Bối cảnh xã hội</h2>
+    </div>
+    <div class="flow">
+      <div class="fstep"><div class="idx">01</div><div class="txt"><h4>Xã hội thực dân nửa phong kiến</h4><p>Đời sống nhân dân chìm trong nghèo đói, bất công và bế tắc.</p></div></div>
+      <div class="fstep"><div class="idx">02</div><div class="txt"><h4>Đạo đức giả danh</h4><p>Lễ giáo phong kiến rao giảng đạo đức nhưng lại dung dưỡng những thói hư tật xấu.</p></div></div>
+      <div class="fstep"><div class="idx">03</div><div class="txt"><h4>Đồng tiền lên ngôi</h4><p>Con người bị quy đổi thành món hàng, tình thân và tình yêu cũng bị mua bán.</p></div></div>
+      <div class="fstep"><div class="idx">04</div><div class="txt"><h4>Người phụ nữ bị tước quyền nói</h4><p>Họ là nạn nhân, nhưng bị chính xã hội quay lưng và kết án.</p></div></div>
+      <div class="fstep"><div class="idx">05</div><div class="txt"><h4>Vũ Trọng Phụng cất tiếng</h4><p>Ông viết để lột trần sự thật, để người đời biết vì sao một cô gái phải "làm đĩ".</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12 · NHÂN VẬT HUYỀN · T1 FLY LEFT -->
+<section class="slide" data-part="1" data-title="Nhân vật Huyền" data-transition="T1">
+  <div class="l-portrait">
+    <div class="portrait">
+      <div class="scanbar"></div>
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <svg class="ph ico"><use href="#i-user"/></svg>
+      <div class="nm">HUYỀN</div>
+    </div>
+    <div class="panel">
+      <div class="kicker" style="margin-bottom:.9em">// CHARACTER FILE</div>
+      <ul class="bullets">
+        <li><b>Xuất thân:</b> con gái một gia đình sa sút ở Hà Thành.</li>
+        <li><b>Vẻ đẹp:</b> xinh xắn, có học thức, được nuôi dạy theo lễ giáo.</li>
+        <li><b>Khát vọng:</b> sống lương thiện, có một mái ấm hạnh phúc.</li>
+        <li><b>Bi kịch:</b> bị chính những người thân và xã hội đẩy vào vũng bùn.</li>
+        <li><b>Ý nghĩa:</b> hiện thân cho số phận người phụ nữ trong xã hội cũ.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13 · QUAN ĐIỂM VTP · T3 RISE UP -->
+<section class="slide" data-part="1" data-title="Quan điểm Vũ Trọng Phụng" data-transition="T3">
+  <div class="l-quote">
+    <div class="qwrap">
+      <span class="qmark l">"</span>
+      <p class="qtext" data-type>Vấn đề nam nữ giao hợp phải đem ra giảng cho tuổi trẻ.</p>
+      <span class="qmark r">"</span>
+    </div>
+    <div class="qauth">— Vũ Trọng Phụng —</div>
+    <div class="quote-bullets">
+      <div class="qb"><span>01</span><p>Dám nói thẳng điều xã hội cấm kỵ.</p></div>
+      <div class="qb"><span>02</span><p>Giáo dục giới tính là vấn đề sống còn.</p></div>
+      <div class="qb"><span>03</span><p>Tố cáo sự giả dối của lễ giáo phong kiến.</p></div>
+      <div class="qb"><span>04</span><p>Nhà văn phải là người nói sự thật.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 14 · DIVIDER III · T9 CURTAIN -->
+<section class="slide" data-part="2" data-title="Phần III" data-transition="T9">
+  <div class="holo-ring c"></div><div class="holo-ring b"></div><div class="holo-ring a"><span class="dot"></span></div>
+  <div class="hero-glow"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:1em;text-align:center">
+    <div class="kicker center">Part Three</div>
+    <h1 class="big sm glitch" data-t="CUỘC ĐỜI HUYỀN" data-type style="font-size:7.4em">CUỘC ĐỜI HUYỀN</h1>
+    <hr class="hr" style="width:30em">
+    <div class="mono" style="font-size:1.15em;color:var(--cyn);letter-spacing:.4em">// A TRAGIC JOURNEY</div>
+  </div>
+</section>
+
+<!-- SLIDE 15 · GẶP GỠ · T3 RISE UP -->
+<section class="slide" data-part="2" data-title="Cuộc gặp gỡ bất ngờ" data-transition="T3">
+  <div class="l-flow">
+    <div>
+      <div class="kicker">// ENCOUNTER</div>
+      <h2 class="sec" style="margin-top:.2em">Cuộc gặp gỡ bất ngờ</h2>
+    </div>
+    <div class="flow">
+      <div class="fstep"><div class="idx">01</div><div class="txt"><h4>Huyền gặp Lưu</h4><p>Một chàng trai hào hoa, lịch thiệp khiến Huyền rung động lần đầu.</p></div></div>
+      <div class="fstep"><div class="idx">02</div><div class="txt"><h4>Những lời đường mật</h4><p>Lưu dùng lời ngon ngọt để chiếm lấy trái tim non nớt của cô gái trẻ.</p></div></div>
+      <div class="fstep"><div class="idx">03</div><div class="txt"><h4>Trao thân trong mù quáng</h4><p>Huyền tin rằng đó là tình yêu đích thực — nhưng sự thật phũ phàng hơn thế.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 16 · BIẾN CỐ · T12 GLITCH -->
+<section class="slide" data-part="2" data-title="Biến cố" data-transition="T12">
+  <div class="l-qcap">
+    <div class="qcap-quote" data-type>"Anh... về đi. Đừng nhìn em như thế."</div>
+    <div class="qcap-line"></div>
+    <div class="qcap-cap">Khi Huyền nhận ra mình đã trao đi tất cả, Lưu quay lưng bỏ mặc cô giữa sự đời. Không còn danh dự, không còn tương lai — tất cả chỉ còn lại một thân xác đã bị vấy bẩn.</div>
+  </div>
+</section>
+
+<!-- SLIDE 17 · BƯỚC NGOẶT · T5 ZOOM IN -->
+<section class="slide" data-part="2" data-title="Bước ngoặt" data-transition="T5">
+  <div class="l-quote">
+    <div class="qwrap">
+      <span class="qmark l">"</span>
+      <p class="qtext" data-type>Anh viết giúp em. Viết để người đời biết vì sao em ra nông nỗi này.</p>
+      <span class="qmark r">"</span>
+    </div>
+    <div class="qauth">— Huyền nói với Vũ Trọng Phụng —</div>
+    <div class="quote-bullets">
+      <div class="qb"><span>▸</span><p>Lời cầu xin được kể lại sự thật.</p></div>
+      <div class="qb"><span>▸</span><p>Nhà văn trở thành người ghi chép số phận.</p></div>
+      <div class="qb"><span>▸</span><p>Chính từ đây, tác phẩm "Làm Đĩ" ra đời.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 18 · MỐI TÌNH ĐẦU LƯU · T2 FLY RIGHT -->
+<section class="slide" data-part="2" data-title="Mối tình đầu với Lưu" data-transition="T2">
+  <div class="l-portrait">
+    <div class="portrait">
+      <div class="scanbar"></div>
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <svg class="ph ico"><use href="#i-mask"/></svg>
+      <div class="nm">LƯU</div>
+    </div>
+    <div class="panel">
+      <div class="kicker" style="margin-bottom:.9em">// FIRST LOVE</div>
+      <ul class="bullets rose">
+        <li><b>Vẻ ngoài:</b> hào hoa, lịch thiệp, ăn nói ngọt ngào.</li>
+        <li><b>Bản chất:</b> kẻ sở khanh, chỉ tìm thú vui nhất thời.</li>
+        <li><b>Thủ đoạn:</b> dùng lời thề non hẹn biển để dụ dỗ Huyền.</li>
+        <li><b>Kết cục:</b> phủi tay bỏ rơi khi Huyền đã trao hết.</li>
+        <li><b>Ý nghĩa:</b> hiện thân cho những kẻ đàn ông giả dối trong xã hội cũ.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 19 · SỰ DỤ DỖ · T7 WIPE LEFT -->
+<section class="slide" data-part="2" data-title="Sự dụ dỗ" data-transition="T7">
+  <div class="l-compare">
+    <div>
+      <div class="kicker">// ILLUSION vs REALITY</div>
+      <h2 class="sec" style="margin-top:.2em">Sự dụ dỗ</h2>
+    </div>
+    <div class="cmp">
+      <div class="cmp-box">
+        <div class="lbl">Huyền tưởng</div>
+        <h3>Đó là tình yêu</h3>
+        <p>Lưu yêu thương mình thật lòng. Những lời hứa sẽ thành hiện thực. Cô gái trẻ tin vào một tương lai hạnh phúc bên người mình chọn.</p>
+      </div>
+      <div class="vs">VS</div>
+      <div class="cmp-box bad">
+        <div class="lbl">Thực chất</div>
+        <h3>Đó là cạm bẫy</h3>
+        <p>Lưu chỉ muốn thỏa mãn dục vọng. Hắn không hề có ý định cưới. Khi đạt được mục đích, hắn lạnh lùng quay lưng bỏ mặc.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 20 · HẬU QUẢ · T3 RISE UP -->
+<section class="slide" data-part="2" data-title="Hậu quả" data-transition="T3">
+  <div class="l-timeline">
+    <div style="margin-bottom:.4em">
+      <div class="kicker">// CONSEQUENCES</div>
+      <h2 class="sec" style="margin-top:.2em">Hậu quả</h2>
+    </div>
+    <div class="tl">
+      <div class="tl-item"><div class="body"><span class="stamp">STEP 01</span><h4>Mất đi trinh tiết</h4><p>Danh dự của người con gái bị chà đạp — vết nhơ không thể gột rửa.</p></div><div class="node"></div><div class="spacer"></div></div>
+      <div class="tl-item"><div class="spacer"></div><div class="node"></div><div class="body"><span class="stamp">STEP 02</span><h4>Bị xem mắt</h4><p>Gia đình tìm cách gả cô đi để "chữa cháy" cho tai tiếng.</p></div></div>
+      <div class="tl-item"><div class="body"><span class="stamp">STEP 03</span><h4>Bố định sẵn</h4><p>Người cha quyết định số phận con gái mà không hỏi ý cô một lời.</p></div><div class="node"></div><div class="spacer"></div></div>
+      <div class="tl-item"><div class="spacer"></div><div class="node"></div><div class="body"><span class="stamp">STEP 04</span><h4>Ép kết hôn với Kim</h4><p>Cuộc hôn nhân sắp đặt — khởi đầu cho chuỗi bi kịch tiếp theo.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 21 · HÔN NHÂN KIM · T1 FLY LEFT -->
+<section class="slide" data-part="2" data-title="Cuộc hôn nhân với Kim" data-transition="T1">
+  <div class="l-portrait">
+    <div class="portrait">
+      <div class="scanbar"></div>
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <svg class="ph ico"><use href="#i-ring"/></svg>
+      <div class="nm">KIM</div>
+    </div>
+    <div class="panel">
+      <div class="kicker" style="margin-bottom:.9em">// MARRIAGE</div>
+      <ul class="bullets">
+        <li><b>Vẻ ngoài:</b> con nhà gia giáo, đàng hoàng, đứng đắn.</li>
+        <li><b>Cuộc hôn nhân:</b> do gia đình sắp đặt, không xuất phát từ tình yêu.</li>
+        <li><b>Sự thật:</b> Kim mang bệnh giang mai — căn bệnh hoa liễu chết người.</li>
+        <li><b>Hệ quả:</b> Huyền bị lây bệnh, sức khỏe và tinh thần sụp đổ hoàn toàn.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 22 · ĐÊM TÂN HÔN · T7 WIPE LEFT -->
+<section class="slide" data-part="2" data-title="Đêm tân hôn" data-transition="T7">
+  <div class="l-compare">
+    <div>
+      <div class="kicker">// WEDDING NIGHT</div>
+      <h2 class="sec" style="margin-top:.2em">Đêm tân hôn</h2>
+    </div>
+    <div class="cmp">
+      <div class="cmp-box">
+        <div class="lbl">Vẻ ngoài</div>
+        <h3>Người chồng lịch thiệp</h3>
+        <p>Một người đàn ông đàng hoàng, gia giáo, được gia đình và xã hội công nhận. Đêm tân hôn tưởng như mở ra một trang mới.</p>
+      </div>
+      <div class="vs">VS</div>
+      <div class="cmp-box bad">
+        <div class="lbl">Sự thật</div>
+        <h3>Kẻ mang bệnh giang mai</h3>
+        <p>Kim đã mắc bệnh hoa liễu từ trước nhưng che giấu. Huyền bị lây bệnh ngay trong đêm đầu tiên — bi kịch thể xác bắt đầu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 23 · SỰ THẬT PHƠI BÀY · T12 GLITCH -->
+<section class="slide" data-part="2" data-title="Sự thật phơi bày" data-transition="T12">
+  <div class="l-quote" style="gap:1em">
+    <div class="qwrap">
+      <span class="qmark l">"</span>
+      <p class="qtext" style="font-size:2.7em" data-type>Người ta chỉ biết trách cô gái hư, mà không ai hỏi vì sao cô ấy hư.</p>
+      <span class="qmark r">"</span>
+    </div>
+    <div class="quote-bullets" style="grid-template-columns:repeat(5,1fr);width:94%">
+      <div class="qb"><span>01</span><p>Bệnh tật hành hạ thể xác.</p></div>
+      <div class="qb"><span>02</span><p>Gia đình ruồng bỏ, xa lánh.</p></div>
+      <div class="qb"><span>03</span><p>Xã hội kết án, khinh miệt.</p></div>
+      <div class="qb"><span>04</span><p>Huyền mất hết chỗ dựa.</p></div>
+      <div class="qb"><span>05</span><p>Trượt dài không lối thoát.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 24 · NHÂN VẬT TÂN · T2 FLY RIGHT -->
+<section class="slide" data-part="2" data-title="Nhân vật Tân" data-transition="T2">
+  <div class="l-portrait">
+    <div class="portrait">
+      <div class="scanbar"></div>
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <svg class="ph ico"><use href="#i-heart"/></svg>
+      <div class="nm">TÂN</div>
+    </div>
+    <div class="panel">
+      <div class="kicker" style="margin-bottom:.9em">// THE AFFAIR</div>
+      <ul class="bullets rose">
+        <li><b>Vai trò:</b> người tình vụng trộm của Huyền sau khi cô đã có chồng.</li>
+        <li><b>Lời hứa:</b> sẽ đưa Huyền đi, cho cô một cuộc đời mới.</li>
+        <li><b>Bản chất:</b> bạc nhược, hèn nhát, chỉ ham vui chứ không dám chịu trách nhiệm.</li>
+        <li><b>Khi bị phát hiện:</b> quay lưng, phủi bỏ mọi ràng buộc.</li>
+        <li><b>Ý nghĩa:</b> thêm một lần nữa, Huyền bị đàn ông phản bội.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 25 · TÌNH VỤNG TRỘM · T3 RISE UP -->
+<section class="slide" data-part="2" data-title="Cuộc tình vụng trộm" data-transition="T3">
+  <div class="l-flow">
+    <div>
+      <div class="kicker">// SECRET AFFAIR</div>
+      <h2 class="sec" style="margin-top:.2em">Cuộc tình vụng trộm</h2>
+    </div>
+    <div class="flow">
+      <div class="fstep"><div class="idx">01</div><div class="txt"><h4>Gặp lại Tân</h4><p>Giữa lúc tuyệt vọng, Huyền gặp lại người đàn ông khiến cô rung động.</p></div></div>
+      <div class="fstep"><div class="idx">02</div><div class="txt"><h4>Những lời hứa hẹn</h4><p>Tân thề sẽ đưa cô rời khỏi cuộc hôn nhân địa ngục.</p></div></div>
+      <div class="fstep"><div class="idx">03</div><div class="txt"><h4>Vụng trộm sau lưng Kim</h4><p>Hai người lén lút gặp nhau, Huyền tin rằng đây là lối thoát duy nhất.</p></div></div>
+      <div class="fstep"><div class="idx">04</div><div class="txt"><h4>Kim nghi ngờ</h4><p>Những dấu hiệu bất thường dần lộ ra, cơn ghen của Kim nổi lên.</p></div></div>
+      <div class="fstep"><div class="idx">05</div><div class="txt"><h4>Bị phát hiện</h4><p>Sự thật vỡ lở — Huyền hoàn toàn không còn đường lui.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 26 · KIM PHÁT HIỆN · T10 FADE+SCALE -->
+<section class="slide" data-part="2" data-title="Kim phát hiện" data-transition="T10">
+  <div class="l-timeline">
+    <div style="margin-bottom:.3em">
+      <div class="kicker">// DISCOVERY</div>
+      <h2 class="sec" style="margin-top:.2em">Kim phát hiện</h2>
+    </div>
+    <div class="tl">
+      <div class="tl-item"><div class="body"><span class="stamp">01</span><h4>Nghi ngờ</h4><p>Thái độ và hành vi của Huyền khiến Kim sinh lòng ngờ vực.</p></div><div class="node"></div><div class="spacer"></div></div>
+      <div class="tl-item"><div class="spacer"></div><div class="node"></div><div class="body"><span class="stamp">02</span><h4>Theo dõi</h4><p>Kim bí mật bám theo từng bước đi của vợ mình.</p></div></div>
+      <div class="tl-item"><div class="body"><span class="stamp">03</span><h4>Phát hiện</h4><p>Bắt quả tang Huyền và Tân — sự thật không thể chối cãi.</p></div><div class="node"></div><div class="spacer"></div></div>
+      <div class="tl-item"><div class="spacer"></div><div class="node"></div><div class="body"><span class="stamp">04</span><h4>Nổi giận</h4><p>Cơn ghen và sự sỉ nhục biến Kim thành kẻ tàn nhẫn.</p></div></div>
+      <div class="tl-item"><div class="body"><span class="stamp">05</span><h4>Đe dọa</h4><p>Kim dùng mọi cách để trừng phạt và sỉ nhục Huyền.</p></div><div class="node"></div><div class="spacer"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 27 · HUYỀN SỤP ĐỔ · T7 WIPE LEFT -->
+<section class="slide" data-part="2" data-title="Huyền sụp đổ & tìm Tân" data-transition="T7">
+  <div class="l-compare">
+    <div>
+      <div class="kicker">// COLLAPSE</div>
+      <h2 class="sec" style="margin-top:.2em">Huyền sụp đổ &amp; tìm Tân</h2>
+    </div>
+    <div class="cmp">
+      <div class="cmp-box">
+        <div class="lbl">Huyền</div>
+        <h3>Van xin trong tuyệt vọng</h3>
+        <p>Cô cầu xin Tân đưa mình đi, cứu mình khỏi cuộc hôn nhân địa ngục. Tất cả hy vọng cuối cùng đặt cả vào một người đàn ông.</p>
+      </div>
+      <div class="vs">VS</div>
+      <div class="cmp-box bad">
+        <div class="lbl">Tân</div>
+        <h3>Phủi bỏ không thương tiếc</h3>
+        <p>Hắn sợ liên lụy, sợ mang tiếng. Tân quay lưng, chối bỏ mọi lời hứa và để Huyền một mình đối mặt với bão tố.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 28 · HÀNH TRÌNH & KẾT CỤC · T3 RISE UP -->
+<section class="slide" data-part="2" data-title="Hành trình & kết cục" data-transition="T3">
+  <div class="l-timeline">
+    <div style="margin-bottom:.2em">
+      <div class="kicker">// FINAL JOURNEY</div>
+      <h2 class="sec" style="margin-top:.15em">Hành trình &amp; kết cục</h2>
+    </div>
+    <div class="tl" style="gap:.95em">
+      <div class="tl-item"><div class="body" style="padding:.75em 1.1em"><span class="stamp">01</span><h4 style="font-size:1.35em">Bán trang sức</h4><p style="font-size:1.02em">Vét sạch tài sản để có tiền lên đường tìm Tân.</p></div><div class="node"></div><div class="spacer"></div></div>
+      <div class="tl-item"><div class="spacer"></div><div class="node"></div><div class="body" style="padding:.75em 1.1em"><span class="stamp">02</span><h4 style="font-size:1.35em">Tìm Tân</h4><p style="font-size:1.02em">Lang thang khắp nơi, hy vọng gặp lại người tình.</p></div></div>
+      <div class="tl-item"><div class="body" style="padding:.75em 1.1em"><span class="stamp">03</span><h4 style="font-size:1.35em">Cạn tiền</h4><p style="font-size:1.02em">Không tiền, không chốn nương thân, không người thân.</p></div><div class="node"></div><div class="spacer"></div></div>
+      <div class="tl-item"><div class="spacer"></div><div class="node"></div><div class="body" style="padding:.75em 1.1em"><span class="stamp">04</span><h4 style="font-size:1.35em">Biết Tân đã đi</h4><p style="font-size:1.02em">Tân bỏ trốn cùng người khác, để lại Huyền tay trắng.</p></div></div>
+      <div class="tl-item"><div class="body" style="padding:.75em 1.1em"><span class="stamp">05</span><h4 style="font-size:1.35em">Mất tất cả</h4><p style="font-size:1.02em">Danh dự, tình yêu, tiền bạc — không còn gì để mất.</p></div><div class="node"></div><div class="spacer"></div></div>
+      <div class="tl-item"><div class="spacer"></div><div class="node"></div><div class="body" style="padding:.75em 1.1em"><span class="stamp">06</span><h4 style="font-size:1.35em">Về Hà Thành</h4><p style="font-size:1.02em">Trở về nơi bắt đầu, trong bộ dạng tả tơi.</p></div></div>
+      <div class="tl-item"><div class="body" style="padding:.75em 1.1em"><span class="stamp">07</span><h4 style="font-size:1.35em">Làm đĩ</h4><p style="font-size:1.02em">Kết cục tất yếu — cái nghề mà xã hội đã đẩy cô vào.</p></div><div class="node"></div><div class="spacer"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 29 · DIVIDER IV · T9 CURTAIN -->
+<section class="slide" data-part="3" data-title="Phần IV" data-transition="T9">
+  <div class="holo-ring c"></div><div class="holo-ring b"></div><div class="holo-ring a"><span class="dot"></span></div>
+  <div class="hero-glow"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:1em;text-align:center">
+    <div class="kicker center">Part Four</div>
+    <h1 class="big sm glitch" data-t="GIÁ TRỊ TÁC PHẨM" data-type style="font-size:7em">GIÁ TRỊ TÁC PHẨM</h1>
+    <hr class="hr" style="width:30em">
+    <div class="mono" style="font-size:1.15em;color:var(--cyn);letter-spacing:.4em">// VALUES & LEGACY</div>
+  </div>
+</section>
+
+<!-- SLIDE 30 · TỔNG KẾT · T11 ROTATE 3D -->
+<section class="slide" data-part="3" data-title="Tổng kết hành trình Huyền" data-transition="T11">
+  <div class="l-quote">
+    <div class="qwrap" style="max-width:88%">
+      <span class="qmark l">"</span>
+      <p class="qtext" style="font-size:2.45em" data-type>Huyền không phải là kẻ tội đồ. Huyền là nạn nhân của một xã hội đã dạy cô rằng thân xác là thứ duy nhất có thể đem ra đổi chác.</p>
+      <span class="qmark r">"</span>
+    </div>
+    <div class="qauth">— Tổng kết hành trình —</div>
+  </div>
+</section>
+
+<!-- SLIDE 31 · GIÁ TRỊ · T5 ZOOM IN -->
+<section class="slide" data-part="3" data-title="Giá trị tác phẩm" data-transition="T5">
+  <div class="l-orbit">
+    <div style="text-align:center">
+      <div class="kicker center">// THREE CORE VALUES</div>
+      <h2 class="sec" style="margin-top:.15em">Giá trị tác phẩm</h2>
+    </div>
+    <div class="orbit-stage">
+      <div class="orbit-ring r1"></div>
+      <div class="orbit-ring r2"></div>
+      <div class="orbit-ring r3"></div>
+      <div class="orbit-core"><span>LÀM<br>ĐĨ</span></div>
+      <div class="orbit-sat" style="animation:spin 22s linear infinite">
+        <div class="sat" style="left:12em;top:0;animation:spin 22s linear infinite reverse"><i>VALUE 01</i><b>Hiện thực</b></div>
+      </div>
+      <div class="orbit-sat" style="animation:spin 34s linear infinite reverse">
+        <div class="sat cy" style="left:-17em;top:0;animation:spin 34s linear infinite"><i>VALUE 02</i><b>Nhân đạo</b></div>
+      </div>
+      <div class="orbit-sat" style="animation:spin 48s linear infinite">
+        <div class="sat pk" style="left:0;top:22em;animation:spin 48s linear infinite reverse"><i>VALUE 03</i><b>Nghệ thuật</b></div>
+      </div>
+    </div>
+    <div class="orbit-note">
+      <div><h4 style="color:var(--pur)">Hiện thực</h4><p>Bức tranh chân thực về xã hội Việt Nam trước 1945 — nơi con người bị đồng tiền và lễ giáo nghiền nát.</p></div>
+      <div><h4 style="color:var(--cyn)">Nhân đạo</h4><p>Nhà văn không kết án Huyền, mà kết án xã hội đã tạo ra Huyền. Tiếng nói bênh vực người phụ nữ.</p></div>
+      <div><h4 style="color:var(--pnk)">Nghệ thuật</h4><p>Ngôn ngữ trần trụi mà tinh tế, kết cấu chặt chẽ, giọng văn vừa châm biếm vừa xót xa.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 32 · CLOSING · T6 ZOOM OUT -->
+<section class="slide" data-part="3" data-title="Cảm ơn & Q&A" data-transition="T6">
+  <div class="hero-glow"></div>
+  <div class="l-closing" style="height:100%">
+    <div class="kicker center">// END OF PRESENTATION</div>
+    <h1 class="thanks glitch" data-t="CẢM ƠN" data-type>CẢM ƠN</h1>
+    <div class="mono" style="font-size:1.3em;color:var(--txt2);letter-spacing:.34em">ĐÃ LẮNG NGHE</div>
+    <button class="qa-btn" id="qaBtn">Q &amp; A</button>
+    <div class="closing-msgs">
+      <div><b>01</b>Đừng phán xét khi chưa hiểu nguyên nhân.</div>
+      <div><b>02</b>Xã hội vô tâm tạo ra bi kịch.</div>
+      <div><b>03</b>Người phụ nữ cần được bảo vệ, không bị kết án.</div>
+      <div><b>04</b>Văn học phải nói lên sự thật.</div>
+      <div><b>05</b>"Làm Đĩ" — tiếng kêu cứu còn vang đến hôm nay.</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════ CONTROLS ═══════════ -->
+<div class="controls">
+  <button class="nav-btn" id="prevBtn" title="Trước (←)"><svg class="ico" style="width:18px;height:18px"><use href="#i-left"/></svg></button>
+  <div class="counter"><b id="curNum">01</b> / <span id="totNum">32</span></div>
+  <div class="segs" id="segs">
+    <div class="seg on" data-p="0" title="Phần I — Tác giả"></div>
+    <div class="seg" data-p="1" title="Phần II — Tác phẩm"></div>
+    <div class="seg" data-p="2" title="Phần III — Cuộc đời Huyền"></div>
+    <div class="seg" data-p="3" title="Phần IV — Giá trị"></div>
+  </div>
+  <button class="nav-btn" id="nextBtn" title="Sau (→)"><svg class="ico" style="width:18px;height:18px"><use href="#i-right"/></svg></button>
+  <div class="mini-btns">
+    <button id="ovBtn" title="Overview (O)"><svg class="ico" style="width:14px;height:14px"><use href="#i-grid"/></svg></button>
+    <button id="fsBtn" title="Fullscreen (F)"><svg class="ico" style="width:14px;height:14px"><use href="#i-full"/></svg></button>
+  </div>
+</div>
+
+<div class="hint">
+  <div><kbd>←</kbd> <kbd>→</kbd> chuyển slide &nbsp;·&nbsp; <kbd>Space</kbd> tiếp</div>
+  <div><kbd>Home</kbd> <kbd>End</kbd> đầu/cuối &nbsp;·&nbsp; <kbd>O</kbd> overview</div>
+  <div><kbd>F</kbd> fullscreen &nbsp;·&nbsp; <kbd>M</kbd> menu</div>
+</div>
+
+<div class="overview" id="overview">
+  <div class="ov-head">
+    <h2>OVERVIEW — 32 SLIDES</h2>
+    <div class="mono" style="font-size:12px;color:var(--txt3);letter-spacing:.28em;margin-top:8px">NHẤN <b style="color:var(--cyn)">ESC</b> HOẶC <b style="color:var(--cyn)">O</b> ĐỂ ĐÓNG</div>
+  </div>
+  <div class="ov-grid" id="ovGrid"></div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   PARTICLE BACKGROUND
+   ══════════════════════════════════════════════════════ */
+(function(){
+  const cv = document.getElementById('particles');
+  const ctx = cv.getContext('2d');
+  let W, H, parts = [], bursts = [];
+
+  function resize(){
+    W = cv.width = window.innerWidth * devicePixelRatio;
+    H = cv.height = window.innerHeight * devicePixelRatio;
+    cv.style.width = window.innerWidth + 'px';
+    cv.style.height = window.innerHeight + 'px';
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const COLORS = ['168,85,247','236,72,153','34,211,238','196,181,253'];
+  function make(){
+    return {
+      x: Math.random()*W, y: Math.random()*H,
+      vx: (Math.random()-.5)*.28*devicePixelRatio,
+      vy: (Math.random()-.5)*.28*devicePixelRatio,
+      r: (Math.random()*1.6+.5)*devicePixelRatio,
+      c: COLORS[(Math.random()*COLORS.length)|0],
+      a: Math.random()*.6+.2,
+      ph: Math.random()*Math.PI*2
+    };
+  }
+  const N = Math.min(90, Math.floor(window.innerWidth/16));
+  for(let i=0;i<N;i++) parts.push(make());
+
+  function burst(x,y,count){
+    for(let i=0;i<count;i++){
+      const ang = Math.random()*Math.PI*2;
+      const sp = (Math.random()*5+1.5)*devicePixelRatio;
+      bursts.push({
+        x,y,
+        vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp,
+        r:(Math.random()*2+.8)*devicePixelRatio,
+        life:1,
+        c: COLORS[(Math.random()*COLORS.length)|0]
+      });
+    }
+  }
+  window.__burst = burst;
+
+  let t=0;
+  function loop(){
+    t += .016;
+    ctx.clearRect(0,0,W,H);
+    for(const p of parts){
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<0) p.x=W; if(p.x>W) p.x=0;
+      if(p.y<0) p.y=H; if(p.y>H) p.y=0;
+      const tw = .55 + Math.sin(t*1.4 + p.ph)*.45;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(${p.c},${p.a*tw})`;
+      ctx.shadowBlur = 12*devicePixelRatio;
+      ctx.shadowColor = `rgba(${p.c},.85)`;
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    for(let i=0;i<parts.length;i++){
+      for(let j=i+1;j<parts.length;j++){
+        const dx=parts[i].x-parts[j].x, dy=parts[i].y-parts[j].y;
+        const d2 = dx*dx+dy*dy;
+        const max = (130*devicePixelRatio)**2;
+        if(d2 < max){
+          const a = (1 - d2/max)*.13;
+          ctx.strokeStyle = `rgba(168,85,247,${a})`;
+          ctx.lineWidth = .6*devicePixelRatio;
+          ctx.beginPath();
+          ctx.moveTo(parts[i].x,parts[i].y);
+          ctx.lineTo(parts[j].x,parts[j].y);
+          ctx.stroke();
         }
-    </script>
+      }
+    }
+    for(let i=bursts.length-1;i>=0;i--){
+      const b = bursts[i];
+      b.x += b.vx; b.y += b.vy;
+      b.vx *= .975; b.vy *= .975;
+      b.life -= .012;
+      if(b.life <= 0){ bursts.splice(i,1); continue; }
+      ctx.beginPath();
+      ctx.arc(b.x,b.y,b.r*b.life,0,Math.PI*2);
+      ctx.fillStyle = `rgba(${b.c},${b.life})`;
+      ctx.shadowBlur = 18*devicePixelRatio;
+      ctx.shadowColor = `rgba(${b.c},${b.life})`;
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ══════════════════════════════════════════════════════
+   SLIDE ENGINE + TRANSITION PRESETS
+   ══════════════════════════════════════════════════════ */
+const slides = Array.from(document.querySelectorAll('.slide'));
+const total = slides.length;
+let cur = 0;
+let animating = false;
+
+const curNumEl = document.getElementById('curNum');
+const totNumEl = document.getElementById('totNum');
+const topfill = document.getElementById('topfill');
+const segs = Array.from(document.querySelectorAll('.seg'));
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const gflash = document.getElementById('gflash');
+
+totNumEl.textContent = String(total).padStart(2,'0');
+
+/* Reverse directional transitions when going backward */
+function reverseTrans(t){
+  const map = {'T1':'T2','T2':'T1','T3':'T4','T4':'T3','T7':'T8','T8':'T7'};
+  return map[t] || t;
+}
+
+/* --- typewriter --- */
+function typeWriter(el, speed = 34){
+  const text = el.dataset.original || el.textContent.trim();
+  el.dataset.original = text;
+  el.textContent = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'tw-cursor';
+  el.appendChild(cursor);
+  let i = 0;
+  const iv = setInterval(() => {
+    if(i >= text.length){
+      clearInterval(iv);
+      setTimeout(()=>{ cursor.style.transition='opacity .4s'; cursor.style.opacity='0';
+        setTimeout(()=>cursor.remove(),420); }, 420);
+      return;
+    }
+    cursor.insertAdjacentText('beforebegin', text[i]);
+    i++;
+  }, speed);
+  el._twTimer = iv;
+}
+
+function clearTW(el){
+  if(el._twTimer){ clearInterval(el._twTimer); el._twTimer = null; }
+  if(el.dataset.original){
+    el.textContent = el.dataset.original;
+    const c = el.querySelector('.tw-cursor');
+    if(c) c.remove();
+  }
+}
+
+/* --- counters --- */
+function runCounters(slide){
+  slide.querySelectorAll('[data-count]').forEach(el=>{
+    const target = parseInt(el.dataset.count, 10);
+    const dur = 1200;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min(1, (now - start)/dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased);
+      if(p < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+function reflow(el){ void el.offsetHeight; }
+
+/* ══════════════════════════════════════════════════════
+   ACTIVATE  — core transition logic
+   ══════════════════════════════════════════════════════ */
+function activate(n, dir){
+  if(animating || n === cur || n < 0 || n >= total) return;
+  // Auto-detect direction if not given
+  if(dir === undefined) dir = n > cur ? 1 : -1;
+  animating = true;
+
+  const prev = slides[cur];
+  const next = slides[n];
+
+  // Determine transition preset for the incoming slide
+  let trans = next.dataset.transition || 'T10';
+  if(dir < 0) trans = reverseTrans(trans);
+
+  // Clear previous typewriters on outgoing slide
+  prev.querySelectorAll('[data-type]').forEach(clearTW);
+
+  // Set data-anim on BOTH slides so entry & exit keys match
+  next.setAttribute('data-anim', trans);
+  prev.setAttribute('data-anim', trans);
+
+  // Force reflow so animations restart cleanly
+  void next.offsetHeight;
+
+  // Glitch flash overlay
+  gflash.classList.remove('on'); reflow(gflash); gflash.classList.add('on');
+
+  // Remove active from prev, add leaving (runs exit animation)
+  prev.classList.remove('active');
+  prev.classList.add('leaving');
+
+  // Activate next slide (runs entry animation)
+  next.classList.add('active');
+
+  // Clean up the old slide after exit animation completes
+  setTimeout(()=>{
+    prev.classList.remove('leaving');
+    prev.removeAttribute('data-anim');
+  }, 720);
+
+  cur = n;
+
+  // Fire typewriters after panels settle
+  setTimeout(()=>{
+    next.querySelectorAll('[data-type]').forEach(el=>{
+      clearTW(el);
+      typeWriter(el, el.classList.contains('thanks') ? 90 : 38);
+    });
+  }, 640);
+
+  runCounters(next);
+
+  // Particle burst for closing slide
+  if(next.dataset.title && next.dataset.title.includes('Cảm ơn')){
+    setTimeout(()=>{
+      const cx = window.innerWidth/2, cy = window.innerHeight/2;
+      window.__burst(cx, cy, 150);
+      setTimeout(()=>window.__burst(cx*0.35, cy*0.7, 70), 180);
+      setTimeout(()=>window.__burst(cx*1.65, cy*0.7, 70), 320);
+    }, 780);
+  }
+
+  updateChrome();
+  setTimeout(()=>{ animating = false; }, 760);
+}
+
+function goTo(n){ activate(n); }
+
+function updateChrome(){
+  curNumEl.textContent = String(cur+1).padStart(2,'0');
+  topfill.style.width = ((cur+1)/total*100) + '%';
+  const part = parseInt(slides[cur].dataset.part || 0, 10);
+  segs.forEach((s,i)=> s.classList.toggle('on', i === part));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === total-1;
+  document.querySelectorAll('#sbSlides .mini').forEach((m,i)=>{
+    m.classList.toggle('on', i === cur);
+  });
+  document.querySelectorAll('#sbParts .sb-item').forEach((b,i)=>{
+    b.classList.toggle('on', i === part);
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   SIDEBAR
+   ══════════════════════════════════════════════════════ */
+const PARTS = [
+  {n:'I', t:'Giới thiệu tác giả'},
+  {n:'II', t:'Tác phẩm «Làm Đĩ»'},
+  {n:'III', t:'Cuộc đời Huyền'},
+  {n:'IV', t:'Giá trị tác phẩm'}
+];
+const sbParts = document.getElementById('sbParts');
+PARTS.forEach((p,i)=>{
+  const b = document.createElement('button');
+  b.className = 'sb-item';
+  b.innerHTML = `<span class="rn">${p.n}</span><span>${p.t}</span>`;
+  b.onclick = ()=>{
+    const idx = slides.findIndex(s => parseInt(s.dataset.part,10) === i);
+    if(idx >= 0) goTo(idx);
+    closeSidebar();
+  };
+  sbParts.appendChild(b);
+});
+
+const sbSlides = document.getElementById('sbSlides');
+slides.forEach((s,i)=>{
+  const m = document.createElement('div');
+  m.className = 'mini';
+  m.textContent = String(i+1).padStart(2,'0') + ' · ' + (s.dataset.title || '');
+  m.onclick = ()=>{ goTo(i); closeSidebar(); };
+  sbSlides.appendChild(m);
+});
+
+const sidebar = document.getElementById('sidebar');
+const hamburger = document.getElementById('hamburger');
+function closeSidebar(){ sidebar.classList.remove('open'); }
+hamburger.onclick = ()=> sidebar.classList.toggle('open');
+
+/* ══════════════════════════════════════════════════════
+   OVERVIEW
+   ══════════════════════════════════════════════════════ */
+const overview = document.getElementById('overview');
+const ovGrid = document.getElementById('ovGrid');
+slides.forEach((s,i)=>{
+  const c = document.createElement('div');
+  c.className = 'ov-card';
+  c.innerHTML = `<div class="part">P${parseInt(s.dataset.part,10)+1} · ${s.dataset.transition||''}</div>
+                 <div class="on">${String(i+1).padStart(2,'0')}</div>
+                 <div class="ot">${s.dataset.title||''}</div>`;
+  c.onclick = ()=>{ toggleOverview(false); goTo(i); };
+  ovGrid.appendChild(c);
+});
+function toggleOverview(force){
+  const on = force === undefined ? !overview.classList.contains('open') : force;
+  overview.classList.toggle('open', on);
+  document.querySelectorAll('.ov-card').forEach((c,i)=> c.classList.toggle('on', i === cur));
+}
+
+/* ══════════════════════════════════════════════════════
+   CONTROLS
+   ══════════════════════════════════════════════════════ */
+prevBtn.onclick = ()=> activate(cur-1, -1);
+nextBtn.onclick = ()=> activate(cur+1, +1);
+document.getElementById('ovBtn').onclick = ()=> toggleOverview();
+document.getElementById('fsBtn').onclick = ()=> toggleFullscreen();
+document.getElementById('qaBtn').onclick = (e)=>{
+  const r = e.currentTarget.getBoundingClientRect();
+  window.__burst(r.left + r.width/2, r.top + r.height/2, 120);
+  e.currentTarget.animate(
+    [{transform:'scale(1)'},{transform:'scale(1.14)'},{transform:'scale(1)'}],
+    {duration:520, easing:'cubic-bezier(.16,1,.3,1)'}
+  );
+};
+
+segs.forEach(s=>{
+  s.onclick = ()=>{
+    const p = parseInt(s.dataset.p,10);
+    const idx = slides.findIndex(x => parseInt(x.dataset.part,10) === p);
+    if(idx >= 0) activate(idx);
+  };
+});
+
+function toggleFullscreen(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+  else document.exitFullscreen();
+}
+
+/* ══════════════════════════════════════════════════════
+   KEYBOARD
+   ══════════════════════════════════════════════════════ */
+document.addEventListener('keydown', e=>{
+  switch(e.key){
+    case 'ArrowRight': case ' ': e.preventDefault(); activate(cur+1, +1); break;
+    case 'ArrowLeft': e.preventDefault(); activate(cur-1, -1); break;
+    case 'Home': e.preventDefault(); activate(0); break;
+    case 'End': e.preventDefault(); activate(total-1); break;
+    case 'f': case 'F': e.preventDefault(); toggleFullscreen(); break;
+    case 'o': case 'O': e.preventDefault(); toggleOverview(); break;
+    case 'm': case 'M': e.preventDefault(); sidebar.classList.toggle('open'); break;
+    case 'Escape':
+      if(overview.classList.contains('open')) toggleOverview(false);
+      else closeSidebar();
+      break;
+  }
+});
+
+/* swipe */
+let tx = 0, ty = 0;
+document.addEventListener('touchstart', e=>{
+  tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY;
+}, {passive:true});
+document.addEventListener('touchend', e=>{
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)){
+    if(dx < 0) activate(cur+1, +1); else activate(cur-1, -1);
+  }
+}, {passive:true});
+
+/* ══════════════════════════════════════════════════════
+   BOOT
+   ══════════════════════════════════════════════════════ */
+window.addEventListener('load', ()=>{
+  slides[0].setAttribute('data-anim', slides[0].dataset.transition || 'T10');
+  slides[0].classList.add('active');
+  updateChrome();
+  setTimeout(()=>{
+    slides[0].querySelectorAll('[data-type]').forEach(el=> typeWriter(el, 110));
+  }, 720);
+});
+</script>
 </body>
 </html>
